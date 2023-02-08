@@ -1,0 +1,9 @@
+.starting {
+    margin: 2px;
+    text-align:match-parent;
+}
+
+.starting h1 {
+    font-size: 50px;
+    color: coral;
+}
