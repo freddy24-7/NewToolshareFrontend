@@ -1,0 +1,118 @@
+.auth {
+    margin: 3rem auto;
+    width: 95%;
+    max-width: 25rem;
+    border-radius: 6px;
+    background-color: #37505a;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    text-align: center;
+    color: white;
+}
+.authinvalid {
+    border: 1px solid #b40e0e;
+    background-color: #5e365e;
+    margin: 3rem auto;
+    width: 95%;
+    max-width: 25rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    text-align: center;
+    color: white;
+}
+
+.auth invalid:focus {
+    border-color: #ff8800;
+    background-color: #fbe8d2;
+}
+
+.auth h1 {
+    text-align: center;
+    color: white;
+}
+
+.control {
+    margin-bottom: 0.5rem;
+}
+
+.control label {
+    display: block;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.control input {
+    font: inherit;
+    background-color: #f1e1fc;
+    color: #37505a;
+    border-radius: 4px;
+    border: 1px solid white;
+    width: 100%;
+    text-align: left;
+    padding: 0.25rem;
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
+
+.actions {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*.actions button {*/
+/*    cursor: pointer;*/
+/*    font: inherit;*/
+/*    background-color: #4d1601;*/
+/*    color: white;*/
+/*    border: 1px solid #37505a;*/
+/*    border-radius: 6px;*/
+/*    padding: 0.5rem 2.5rem;*/
+/*}*/
+
+.actions button:hover {
+    background-color: #37505a;
+    border-color: #37505a;
+}
+
+.actions .toggle {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: #37505a;
+    border: none;
+    padding: 0.15rem 1.5rem;
+}
+
+.actions .toggle:hover {
+    background-color: transparent;
+    color: #37505a;
+}
+
+.error {
+    color: #c493c9;
+}
+.photo {
+    margin: 3rem auto;
+    text-align: center;
+}
+
+.toggle {
+    float: right;
+    margin-top: 0px;
+    margin-right: 80px;
+    right: 100px;
+    background-color: #37505a;
+    color: white;
+}
+
+.text {
+    color: #37505a;
+    text-align: right;
+    margin-right: 160px;
+    margin-left: 20px;
+    font-size: 10px;
+    font-weight: bold;
+}

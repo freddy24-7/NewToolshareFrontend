@@ -1,6 +1,7 @@
 import {Route, Routes} from "react-router-dom";
 import HomePage from "./components/HomePage/HomePage";
 import Layout from "./components/Layout/Layout";
+import RegistrationForm from "./components/Register-Login/RegistrationForm";
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
             <Routes>
                 <Route>
                     <Route exact path="/" element={<HomePage />}/>
+                    <Route path="/login-register" element={<RegistrationForm />}/>
                 </Route>
             </Routes>
         </Layout>

@@ -1,9 +1,21 @@
-.starting {
-    margin: 2px;
-    text-align:match-parent;
+.photo {
+    text-align: center;
+    width: 50%;
+    float: left;
 }
 
 .starting h1 {
+    text-align: center;
     font-size: 50px;
-    color: coral;
+    color: #37505a;
+}
+.starting h3 {
+    text-align: center;
+    font-size: 25px;
+    color: #37505a;
+}
+
+.mapDetails {
+    width: 50%;
+    float: right;
 }
