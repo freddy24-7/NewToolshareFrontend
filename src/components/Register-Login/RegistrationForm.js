@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import {SIGN_UP_URL} from "../../backend-urls/constants";
 import classes from "./RegistrationForm.module.css";
+import {useNavigate} from "react-router-dom";
+import Card from "../../components/Card/Card";
+import Button from "../../components/Button/Button";
+import laptopguy from "../../assets/pexels-mikhail-nilov-6964367.jpg";
 
 const Registration = () => {
     const [username, setUsername] = useState('');
@@ -11,10 +15,12 @@ const Registration = () => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        // Validate inputs
+        // Input validation in frontend
         if (username.trim().length === 0) {
             setErrorMessage('Username is required');
             return;
@@ -32,20 +38,21 @@ const Registration = () => {
             return;
         }
 
-
-        // Clear error message
+        // Clearing the error message after successful validation
         setErrorMessage('');
 
-        // Prepare payload
+        // Preparing payload for Api request
         const payload = {
             username,
             password
         };
 
-        // Make API request
+        // Making the API request
         axios.post(SIGN_UP_URL, payload)
             .then(response => {
                 console.log(response);
+                // Redirecting to login page
+                (navigate('/login'))
             })
             .catch(error => {
                 console.error(error);
@@ -55,35 +62,57 @@ const Registration = () => {
                 const errorCheck = (error.response.status)
                 //setting the error
                 if (errorCheck === 409) {
-                    setError("Gebruikersnaam In gebruik, kies een andere gebruikersnaam")
+                    setError("Gebruikersnaam In gebruik, kies een andere gebruikersnaam.")
                 }
                 setIsLoading(false);
             });
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <>
+        {/*Wrapping around a reusable Card component*/}
+        <Card className={classes.auth}>
+        <form className={classes.control} onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="username">Username:</label>
-                <input type="text" id="username" value={username} onChange={event => setUsername(event.target.value)} />
+                <input type="text"
+                       id="username"
+                       value={username}
+                       placeholder={"Kies een gebruikersnaam"}
+                       onChange={event => setUsername(event.target.value)} />
             </div>
             <div>
                 <label htmlFor="password">Password:</label>
-                <input type="password" id="password" value={password} onChange={event => setPassword(event.target.value)} />
+                <input type="password"
+                       id="password"
+                       value={password}
+                       placeholder={"Kies een wachtwoord"}
+                       onChange={event => setPassword(event.target.value)} />
             </div>
             <div>
                 <label htmlFor="repeatPassword">Repeat Password:</label>
-                <input type="password" id="repeatPassword" value={repeatPassword} onChange={event => setRepeatPassword(event.target.value)} />
+                <input type="password"
+                       id="repeatPassword"
+                       value={repeatPassword}
+                       placeholder={"Herhaal wachtwoord"}
+                       onChange={event => setRepeatPassword(event.target.value)} />
             </div>
             {errorMessage.length > 0 && (
                 <div>
-                    <p style={{ color: 'red' }}>{errorMessage}</p>
+                    <p className={classes.error}>{errorMessage}</p>
                 </div>
             )}
-            <button type="submit">Submit</button>
             {isLoading && <p>Your inputs are ok!</p>}
             {error && <div className={classes.error}> {error} </div>}
+            <Button type="submit">Submit</Button>
         </form>
+        </Card>
+            <section>
+                <div className={classes.photo}>
+                <img src={laptopguy} alt="laptopguy" height={300} width={220}/>
+                </div>
+            </section>
+        </>
     );
 };
 

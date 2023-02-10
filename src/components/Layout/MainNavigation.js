@@ -19,7 +19,10 @@ const MainNavigation = () => {
                                 <Link to='/' >Home</Link>
                             </li>
                             <li>
-                                <Link to='/login-register' >Login/Register</Link>
+                                <Link to='/register' >Register</Link>
+                            </li>
+                            <li>
+                                <Link to='/login' >Login</Link>
                             </li>
                         </ul>
                     </nav>

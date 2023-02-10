@@ -11,6 +11,8 @@
 }
 
 .Button:hover {
-    background-color: #37505a;
+    background-color: navajowhite;
     border-color: white;
+    font: inherit;
+    color: black;
 }

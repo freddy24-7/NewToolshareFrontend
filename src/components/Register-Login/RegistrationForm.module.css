@@ -73,10 +73,10 @@
 /*    padding: 0.5rem 2.5rem;*/
 /*}*/
 
-.actions button:hover {
-    background-color: #37505a;
-    border-color: #37505a;
-}
+/*.actions button:hover {*/
+/*    background-color: #37505a;*/
+/*    border-color: #37505a;*/
+/*}*/
 
 .actions .toggle {
     margin-top: 1rem;
