@@ -8,7 +8,7 @@ import Button from '../../components/Button/Button';
 import laptopguy from '../../assets/pexels-mikhail-nilov-6964367.jpg';
 import useApiCalls from '../../hooks/useApiCalls';
 
-const Registration = () => {
+const RegistrationForm = ({ handleRegistration }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -60,7 +60,7 @@ const Registration = () => {
       .then((response) => {
         console.log(response);
         incrementApiCalls();
-
+        handleRegistration();
         // Redirecting to login page
         navigate('/login');
       })
@@ -137,4 +137,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default RegistrationForm;

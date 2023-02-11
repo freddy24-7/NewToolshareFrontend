@@ -22,11 +22,6 @@
     color: white;
 }
 
-.auth invalid:focus {
-    border-color: #ff8800;
-    background-color: #fbe8d2;
-}
-
 .auth h1 {
     text-align: center;
     color: white;
@@ -63,21 +58,6 @@
     align-items: center;
 }
 
-/*.actions button {*/
-/*    cursor: pointer;*/
-/*    font: inherit;*/
-/*    background-color: #4d1601;*/
-/*    color: white;*/
-/*    border: 1px solid #37505a;*/
-/*    border-radius: 6px;*/
-/*    padding: 0.5rem 2.5rem;*/
-/*}*/
-
-/*.actions button:hover {*/
-/*    background-color: #37505a;*/
-/*    border-color: #37505a;*/
-/*}*/
-
 .actions .toggle {
     margin-top: 1rem;
     background-color: transparent;
@@ -99,14 +79,6 @@
     text-align: center;
 }
 
-.toggle {
-    float: right;
-    margin-top: 0px;
-    margin-right: 80px;
-    right: 100px;
-    background-color: #37505a;
-    color: white;
-}
 
 .text {
     color: #37505a;
