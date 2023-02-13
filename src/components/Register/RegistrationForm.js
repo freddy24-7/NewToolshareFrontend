@@ -18,9 +18,11 @@ const RegistrationForm = ({ handleRegistration }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Input validation in frontend
@@ -55,29 +57,27 @@ const RegistrationForm = ({ handleRegistration }) => {
     };
 
     // Making the API request. Keeping track of the number of API calls
-    axios
-      .post(SIGN_UP_URL, payload)
-      .then((response) => {
-        console.log(response);
-        incrementApiCalls();
-        handleRegistration();
-        // Redirecting to login page
-        navigate('/login');
-      })
-      .catch((error) => {
-        console.error(error);
-        //Checking error response stats
-        console.log(error.response.status);
-        //storing it in a variable
-        const errorCheck = error.response.status;
-        //setting the error
-        if (errorCheck === 409) {
-          setError(
-            'Gebruikersnaam In gebruik, kies een andere gebruikersnaam.',
-          );
-        }
-        setIsLoading(false);
-      });
+    //
+    try {
+      const response = await axios.post(SIGN_UP_URL, payload);
+      console.log(response);
+      incrementApiCalls();
+      handleRegistration();
+      // Redirecting to login page
+      navigate('/login');
+    } catch (error) {
+      console.error(error);
+      //Checking error response status
+      console.log(error.response.status);
+      //storing it in a variable
+      const errorCheck = error.response.status;
+      //setting the error
+      if (errorCheck === 409) {
+        setError('Gebruikersnaam In gebruik, kies een andere gebruikersnaam.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
     console.log('API calls: ', apiCalls);
   };
   //Dynamic use of CSS, other styles appear if input is invalid

@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';
 import applicationLogo from '../../assets/1667993269612blob.jpg';
+import Button from '../Button/Button';
 
-const MainNavigation = ({ isRegistered }) => {
+const MainNavigation = ({ isRegistered, isLoggedIn, handleLogout }) => {
   return (
     <>
       <header className={classes.header}>
@@ -18,21 +19,40 @@ const MainNavigation = ({ isRegistered }) => {
         </div>
         <nav>
           {isRegistered ? (
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-            </ul>
+            isLoggedIn ? (
+              <ul>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/profile">Profile</Link>
+                </li>
+                <li>
+                  <Button to="/" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </li>
+              </ul>
+            ) : (
+              <ul>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+              </ul>
+            )
           ) : (
             <ul>
               <li>
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/register">Register</Link>
+                <Link to="/login">Login</Link>
               </li>
               <li>
-                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
               </li>
             </ul>
           )}
