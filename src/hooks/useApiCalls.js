@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 function useApiCalls() {
   //This variable manages the number of API calls
-  const [apiCalls, setApiCalls] = useState(0);
+  const [apiCalls, setApiCalls] = useState(1);
 
   //This function increments the number of API calls
   function incrementApiCalls() {

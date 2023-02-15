@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { SIGN_UP_URL } from '../../backend-urls/constants';
 import classes from './RegistrationForm.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -7,15 +6,16 @@ import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
 import laptopguy from '../../assets/pexels-mikhail-nilov-6964367.jpg';
 import useApiCalls from '../../hooks/useApiCalls';
+import useAxios from '../../hooks/useAxios';
 
 const RegistrationForm = ({ handleRegistration }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [error, setError] = useState('');
   const [inputError, setInputError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [backEndError, setBackendError] = useState(false);
+  const { post, loading, error, data, statusCode } = useAxios();
 
   const navigate = useNavigate();
 
@@ -50,36 +50,28 @@ const RegistrationForm = ({ handleRegistration }) => {
     // Clearing the error message after successful validation
     setErrorMessage('');
 
-    // Preparing payload for Api request
     const payload = {
       username,
       password,
     };
 
-    // Making the API request. Keeping track of the number of API calls
-    //
-    try {
-      const response = await axios.post(SIGN_UP_URL, payload);
-      console.log(response);
-      incrementApiCalls();
-      handleRegistration();
-      // Redirecting to login page
+    post(SIGN_UP_URL, payload, { 'Content-Type': 'application/json' });
+    incrementApiCalls();
+    handleRegistration();
+  };
+
+  useEffect(() => {
+    if (statusCode === 201) {
+      // Registration successful, navigate to login page
       navigate('/login');
-    } catch (error) {
-      console.error(error);
-      //Checking error response status
-      console.log(error.response.status);
-      //storing it in a variable
-      const errorCheck = error.response.status;
-      //setting the error
-      if (errorCheck === 409) {
-        setError('Gebruikersnaam In gebruik, kies een andere gebruikersnaam.');
-      }
-    } finally {
-      setIsLoading(false);
+    }
+    if (error && error.response && error.response.status === 409) {
+      // User already exists
+      setBackendError(true);
     }
     console.log('API calls: ', apiCalls);
-  };
+  }, [data, error]);
+
   //Dynamic use of CSS, other styles appear if input is invalid
   const inputClasses = inputError ? classes.authinvalid : classes.auth;
 
@@ -123,9 +115,10 @@ const RegistrationForm = ({ handleRegistration }) => {
               <p className={classes.error}>{errorMessage}</p>
             </div>
           )}
-          {isLoading && <p>Your inputs are ok!</p>}
-          {error && <div className={classes.error}> {error} </div>}
-          <Button type="submit">Submit</Button>
+          {loading && <p>Your inputs are ok!</p>}
+          {loading && <p>Loading...</p>}
+          {error && <p>{error}</p>}
+          <Button type="submit">Register</Button>
         </form>
       </Card>
       <section>
