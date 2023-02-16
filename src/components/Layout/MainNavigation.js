@@ -1,3 +1,4 @@
+//This is the MainNavigation component. It is used to navigate between the different pages in the application.
 import { Link } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';

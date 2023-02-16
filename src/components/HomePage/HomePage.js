@@ -1,3 +1,4 @@
+//This is the HomePage component. It is used to display the homepage of the application.
 import classes from './HomePage.module.css';
 import workman from '../../assets/pexels-photo-1453499.jpeg';
 import mapFragment from '../../assets/areamap.png';

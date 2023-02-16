@@ -15,6 +15,8 @@ const RegistrationForm = ({ handleRegistration }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [inputError, setInputError] = useState(false);
   const [backEndError, setBackendError] = useState(false);
+
+  //Custom hook to make API calls
   const { post, loading, error, data, statusCode } = useAxios();
 
   const navigate = useNavigate();
@@ -61,6 +63,7 @@ const RegistrationForm = ({ handleRegistration }) => {
   };
 
   useEffect(() => {
+    console.log(statusCode);
     if (statusCode === 201) {
       // Registration successful, navigate to login page
       navigate('/login');
@@ -73,7 +76,8 @@ const RegistrationForm = ({ handleRegistration }) => {
   }, [data, error]);
 
   //Dynamic use of CSS, other styles appear if input is invalid
-  const inputClasses = inputError ? classes.authinvalid : classes.auth;
+  const inputClasses =
+    inputError || backEndError ? classes.authinvalid : classes.auth;
 
   return (
     <>

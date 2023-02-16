@@ -1,3 +1,4 @@
+// This file defines the context for the application. It is used to create JWT-tokens for authentication
 import React, { createContext, useState } from 'react';
 
 //Defining Security context - to produce JWT tokens on login for authentication

@@ -1,8 +1,9 @@
+//This hook manages the number of API calls
 import { useState } from 'react';
 
 function useApiCalls() {
   //This variable manages the number of API calls
-  const [apiCalls, setApiCalls] = useState(1);
+  const [apiCalls, setApiCalls] = useState(0);
 
   //This function increments the number of API calls
   function incrementApiCalls() {

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+//This is a custom hook that we can use to make API calls
+import { useState } from 'react';
 import axios from 'axios';
 
 const useAxios = () => {
@@ -25,10 +26,13 @@ const useAxios = () => {
       setData([]);
       if (error.response && error.response.status === 409) {
         setError('Username already exists, please choose another.');
+      } else if (error.response && error.response.status === 403) {
+        setError('Incorrect username or password');
       } else {
         setError(error.message);
       }
     }
+    console.log(data);
     setLoading(false);
   };
 
