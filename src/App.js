@@ -14,19 +14,16 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
 
-  const [token, setToken] = useState(localStorage.getItem('jwt') || '');
-  console.log(token);
-
   //This variable manages the navigation
   const navigate = useNavigate();
 
+  //These functions are used to change the state of the navigation variables above
   const handleRegistration = () => {
     setIsRegistered(true);
   };
   const changeLoginState = () => {
     setIsLoggedIn(true);
   };
-
   const handleUpdate = () => {
     setIsUpdated(true);
   };
@@ -40,6 +37,7 @@ function App() {
     navigate('/');
   };
 
+  //These console.logs are used to check the state of the variables above
   console.log(isRegistered, isLoggedIn, isUpdated);
 
   return (

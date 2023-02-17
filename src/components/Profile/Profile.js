@@ -1,3 +1,4 @@
+// This is a context that will be used to store the user's token
 import React, { useEffect, useState } from 'react';
 import { PARTICIPANT_URL } from '../../backend-urls/constants';
 import classes from './Profile.module.css';
@@ -23,11 +24,11 @@ const Profile = ({ handleUpdate }) => {
   const { post, loading, error, data, statusCode, token } = useAxios();
 
   const navigate = useNavigate();
+
+  //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
-  // const token = localStorage.getItem('token');
-  // console.log(token);
-
+  //Function to handle the submit of the form
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -42,7 +43,6 @@ const Profile = ({ handleUpdate }) => {
       setInputError(true);
       return;
     }
-    //postcode should start with "3543" followed by two capital letters
     let regex = /^3543[A-Z]{2}$/;
     if (!postcode.trim().match(regex)) {
       setErrorMessage(
@@ -70,6 +70,7 @@ const Profile = ({ handleUpdate }) => {
     setErrorMessage('');
     setInputError(false);
 
+    //Creating the payload for the API call
     const payload = {
       firstName,
       lastName,
@@ -78,12 +79,14 @@ const Profile = ({ handleUpdate }) => {
       postcode,
       photoURL,
     };
+    //Making the API call
     post(PARTICIPANT_URL, payload, {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     });
   };
 
+  // useEffect to check if the API call was successful
   useEffect(() => {
     console.log(statusCode);
     if (statusCode === 200) {

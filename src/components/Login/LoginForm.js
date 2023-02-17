@@ -1,3 +1,4 @@
+// This component is used to login a user
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import Card from '../Card/Card';

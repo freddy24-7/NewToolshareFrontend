@@ -1,3 +1,4 @@
+// This component is responsible for the registration form
 import React, { useEffect, useState } from 'react';
 import { SIGN_UP_URL } from '../../backend-urls/constants';
 import classes from './RegistrationForm.module.css';
@@ -24,6 +25,7 @@ const RegistrationForm = ({ handleRegistration }) => {
   //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
+  // Making the API request when the form is submitted
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -52,15 +54,18 @@ const RegistrationForm = ({ handleRegistration }) => {
     // Clearing the error message after successful validation
     setErrorMessage('');
 
+    // Preparing payload for Api request
     const payload = {
       username,
       password,
     };
 
+    // Making the API request
     post(SIGN_UP_URL, payload, { 'Content-Type': 'application/json' });
     incrementApiCalls();
   };
 
+  // When the API request is complete, handle the response
   useEffect(() => {
     console.log(statusCode);
     if (statusCode === 201) {
