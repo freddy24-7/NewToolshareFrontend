@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import Card from '../Card/Card';
 import classes from './LoginForm.module.css';
 import Button from '../Button/Button';
@@ -10,6 +10,7 @@ import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
 
 const LoginForm = ({ changeLoginState }) => {
+  const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [backEndError, setBackendError] = useState(false);
@@ -17,11 +18,10 @@ const LoginForm = ({ changeLoginState }) => {
   //Custom hook to make API calls
   const { post, loading, error, data, statusCode } = useAxios();
 
-  const navigate = useNavigate();
+  //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
-  //using context to store jwt token
-  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // Preparing payload for Api request
   const payload = {
@@ -29,41 +29,27 @@ const LoginForm = ({ changeLoginState }) => {
     password,
   };
 
-  // Making the API request. Keeping track of the number of API calls
+  // Making the API request when the form is submitted
   const handleLogin = async (event) => {
     event.preventDefault();
     post(SIGN_IN_URL, payload, { 'Content-Type': 'application/json' });
+    incrementApiCalls();
   };
 
+  // When the API request is complete, handle the response
   useEffect(() => {
-    incrementApiCalls();
-    authContext.login(data.token);
-    //Defining user object for backend
-    const user = {
-      token: data.token,
-      id: data.id,
-      username: data.username,
-      password: data.password,
-    };
-    //storing jwt token for future authentication. Token is later deleted on log-out
-    localStorage.setItem('jwt', data.token);
-    //checking the data we have access to with a console.log
-    console.log(user.id);
-    //storing userid in local storage - to be utilized later in the application
-    localStorage.setItem('userId', user.id);
-    console.log(user.token);
-    incrementApiCalls();
-    changeLoginState();
-    console.log('API calls: ', apiCalls);
-    if (statusCode === 200) {
-      // Login successful, navigate to profile page
-      navigate('/profile');
-    } else if (error && error.response && error.response.status === 403) {
-      // Wrong username or password
-      setBackendError(true);
-      console.log('Wrong username or password');
+    if (data) {
+      if (statusCode === 200) {
+        // Login successful, set the token and navigate to profile page
+        login(data.token);
+        changeLoginState();
+        navigate('/profile');
+      } else if (error && error.response && error.response.status === 403) {
+        // Wrong username or password
+        setBackendError(true);
+        console.log('Wrong username or password');
+      }
     }
-    console.log('API calls: ', apiCalls);
   }, [data, error]);
 
   //Dynamic use of CSS, other styles appear if input is invalid

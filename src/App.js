@@ -2,15 +2,24 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
 import RegistrationForm from './components/Register/RegistrationForm';
 import LoginForm from './components/Login/LoginForm';
-import AuthContext from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import Profile from './components/Profile/Profile';
 import MainNavigation from './components/Layout/MainNavigation';
 import { useState } from 'react';
+import Commencement from './components/Transactions/Commencement';
 
 function App() {
-  //These variable manages the security set up for the whole application (JWT)
+  //These variables are used for conditonal button display in the MainNavigation component
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
+
+  const [token, setToken] = useState(localStorage.getItem('jwt') || '');
+  console.log(token);
+
+  const handleTokenChange = (newToken) => {
+    setToken(newToken);
+  };
 
   //This variable manages the navigation
   const navigate = useNavigate();
@@ -22,18 +31,27 @@ function App() {
     setIsLoggedIn(true);
   };
 
+  const handleUpdate = () => {
+    setIsUpdated(true);
+  };
+
   //This function handles the logout
   const handleLogout = () => {
     setIsLoggedIn(false);
     setIsRegistered(false);
+    setIsUpdated(false);
+    localStorage.removeItem('jwt');
     navigate('/');
   };
 
+  console.log(isRegistered, isLoggedIn, isUpdated);
+
   return (
-    <AuthContext>
+    <AuthProvider>
       <MainNavigation
         isRegistered={isRegistered}
         isLoggedIn={isLoggedIn}
+        isUpdated={isUpdated}
         handleLogout={handleLogout}
       />
       <Routes>
@@ -49,10 +67,20 @@ function App() {
             path="/login"
             element={<LoginForm changeLoginState={changeLoginState} />}
           />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                handleTokenChange={handleTokenChange}
+                token={token}
+                handleUpdate={handleUpdate}
+              />
+            }
+          />
+          <Route path="/start" element={<Commencement />} />
         </Route>
       </Routes>
-    </AuthContext>
+    </AuthProvider>
   );
 }
 

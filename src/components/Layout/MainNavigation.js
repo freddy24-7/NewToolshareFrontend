@@ -5,7 +5,7 @@ import classes from './MainNavigation.module.css';
 import applicationLogo from '../../assets/1667993269612blob.jpg';
 import Button from '../Button/Button';
 
-const MainNavigation = ({ isRegistered, isLoggedIn, handleLogout }) => {
+function MainNavigation({ isRegistered, isLoggedIn, isUpdated, handleLogout }) {
   return (
     <>
       <header className={classes.header}>
@@ -19,48 +19,68 @@ const MainNavigation = ({ isRegistered, isLoggedIn, handleLogout }) => {
           />
         </div>
         <nav>
-          {isRegistered ? (
-            isLoggedIn ? (
-              <ul>
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/profile">Profile</Link>
-                </li>
-                <li>
-                  <Button to="/" onClick={handleLogout}>
-                    Logout
-                  </Button>
-                </li>
-              </ul>
-            ) : (
-              <ul>
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/login">Login</Link>
-                </li>
-              </ul>
-            )
-          ) : (
+          {!isRegistered && !isLoggedIn && !isUpdated ? (
+            // Display "Register" and "Login" buttons
             <ul>
               <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/register">Register</Link>
+                <Link to="/" className={classes.nav}>
+                  Home
+                </Link>
+                <Link to="/register" className={classes.nav}>
+                  Register
+                </Link>
+                <Link to="/login" className={classes.nav}>
+                  Login
+                </Link>
               </li>
             </ul>
-          )}
+          ) : isRegistered && !isLoggedIn && !isUpdated ? (
+            // Display "Home" and "Login" buttons
+            <ul>
+              <li>
+                <Link to="/" className={classes.nav}>
+                  Home
+                </Link>
+                <Link to="/login" className={classes.nav}>
+                  Login
+                </Link>
+              </li>
+            </ul>
+          ) : isRegistered && isLoggedIn && !isUpdated ? (
+            // Display "Home", "Logout" and "Profile" buttons
+            <ul>
+              <li>
+                <Link to="/" className={classes.nav}>
+                  Home
+                </Link>
+                <Link to="/profile" className={classes.nav}>
+                  Profile
+                </Link>
+                <Button to="/" className={classes.nav} onClick={handleLogout}>
+                  Logout
+                </Button>
+              </li>
+            </ul>
+          ) : isRegistered && isLoggedIn && isUpdated ? (
+            // Display "Home", "Logout" and "Test" buttons
+            <ul>
+              <li>
+                <Link to="/" className={classes.nav}>
+                  Home
+                </Link>
+                <Link to="/start" className={classes.nav}>
+                  Start
+                </Link>
+                <Button to="/" className={classes.nav} onClick={handleLogout}>
+                  Logout
+                </Button>
+              </li>
+            </ul>
+          ) : null}
         </nav>
       </header>
     </>
   );
-};
+}
 
 export default MainNavigation;

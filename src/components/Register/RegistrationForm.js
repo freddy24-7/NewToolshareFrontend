@@ -59,13 +59,13 @@ const RegistrationForm = ({ handleRegistration }) => {
 
     post(SIGN_UP_URL, payload, { 'Content-Type': 'application/json' });
     incrementApiCalls();
-    handleRegistration();
   };
 
   useEffect(() => {
     console.log(statusCode);
     if (statusCode === 201) {
       // Registration successful, navigate to login page
+      handleRegistration();
       navigate('/login');
     }
     if (error && error.response && error.response.status === 409) {

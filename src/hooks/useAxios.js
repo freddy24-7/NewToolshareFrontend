@@ -20,14 +20,16 @@ const useAxios = () => {
         headers: headers,
       });
       setData(response.data);
+      console.log(response);
       setStatusCode(response.status);
       setError(null);
     } catch (error) {
+      console.log(error);
       setData([]);
       if (error.response && error.response.status === 409) {
         setError('Username already exists, please choose another.');
       } else if (error.response && error.response.status === 403) {
-        setError('Incorrect username or password');
+        setError('Bad server response, please try again later.');
       } else {
         setError(error.message);
       }
@@ -53,12 +55,16 @@ const useAxios = () => {
     fetchData(url, 'delete', null, headers);
   };
 
+  // Get token from local storage, for API calls where token is required
+  const token = localStorage.getItem('token');
+
   // return data, loading, error, statusCode, get, post, put, del
   return {
     data,
     loading,
     error,
     statusCode,
+    token,
     get,
     post,
     put,
