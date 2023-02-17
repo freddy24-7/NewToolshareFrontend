@@ -17,10 +17,6 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem('jwt') || '');
   console.log(token);
 
-  const handleTokenChange = (newToken) => {
-    setToken(newToken);
-  };
-
   //This variable manages the navigation
   const navigate = useNavigate();
 
@@ -40,7 +36,7 @@ function App() {
     setIsLoggedIn(false);
     setIsRegistered(false);
     setIsUpdated(false);
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('token');
     navigate('/');
   };
 
@@ -69,13 +65,7 @@ function App() {
           />
           <Route
             path="/profile"
-            element={
-              <Profile
-                handleTokenChange={handleTokenChange}
-                token={token}
-                handleUpdate={handleUpdate}
-              />
-            }
+            element={<Profile handleUpdate={handleUpdate} />}
           />
           <Route path="/start" element={<Commencement />} />
         </Route>

@@ -8,7 +8,7 @@ import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
 import machineworker from '../../assets/pexels-karolina-grabowska-6920104.jpg';
 
-const Profile = ({ handleUpdate, handleTokenChange }) => {
+const Profile = ({ handleUpdate }) => {
   //Defining the variables for uploading new participant
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -53,7 +53,7 @@ const Profile = ({ handleUpdate, handleTokenChange }) => {
     }
     regex = /@/;
     if (!regex.test(email)) {
-      setErrorMessage('Invalid email address: must contain "@" symbol');
+      setErrorMessage('Please provide a valid email address');
       setInputError(true);
       return;
     }

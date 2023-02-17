@@ -29,7 +29,7 @@ const useAxios = () => {
       if (error.response && error.response.status === 409) {
         setError('Username already exists, please choose another.');
       } else if (error.response && error.response.status === 403) {
-        setError('Bad server response, please try again later.');
+        setError('Bad server response, not authenticated.');
       } else {
         setError(error.message);
       }
