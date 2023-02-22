@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
 import RegistrationForm from './components/Register/RegistrationForm';
 import LoginForm from './components/Login/LoginForm';
@@ -34,6 +34,7 @@ function App() {
     setIsRegistered(false);
     setIsUpdated(false);
     localStorage.removeItem('token');
+    localStorage.removeItem('submission');
     navigate('/');
   };
 
@@ -61,11 +62,15 @@ function App() {
             path="/login"
             element={<LoginForm changeLoginState={changeLoginState} />}
           />
-          <Route
-            path="/profile"
-            element={<Profile handleUpdate={handleUpdate} />}
-          />
-          <Route path="/start" element={<Commencement />} />
+          {isLoggedIn && (
+            <Route
+              path="/profile"
+              element={<Profile handleUpdate={handleUpdate} />}
+            />
+          )}
+          {isLoggedIn && <Route path="/start/:id" element={<Commencement />} />}
+          {/* Redirect to the homepage for any other URLs */}
+          {/*<Route path="*" element={<Navigate to="/" />} />*/}
         </Route>
       </Routes>
     </AuthProvider>

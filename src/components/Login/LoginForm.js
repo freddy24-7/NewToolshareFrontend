@@ -22,6 +22,7 @@ const LoginForm = ({ changeLoginState }) => {
   //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
+  // React router hook to navigate to other pages
   const navigate = useNavigate();
 
   // Preparing payload for Api request

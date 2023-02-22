@@ -105,7 +105,7 @@ const RegistrationForm = ({ handleRegistration }) => {
               type="password"
               id="password"
               value={password}
-              placeholder={'Kies een wachtwoord'}
+              placeholder={'Kies een wachtwoord - ten minste 8 tekens'}
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>

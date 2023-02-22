@@ -1,12 +1,13 @@
-//This is a custom hook that we can use to make API calls
+// This is a custom hook that we can use to make API calls
 import { useState } from 'react';
 import axios from 'axios';
-
+//
 const useAxios = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [statusCode, setStatusCode] = useState(null);
+  const [id, setId] = useState(null); // Add a state variable to store the id
 
   //This function is used to make the API calls
   const fetchData = async (url, method, body = null, headers = {}) => {
@@ -21,6 +22,9 @@ const useAxios = () => {
       });
       setData(response.data);
       console.log(response);
+      console.log(response.data);
+      console.log(response.data.id);
+      setId(response.data.id); // Set the id state variable
       setStatusCode(response.status);
       setError(null);
     } catch (error) {
@@ -30,12 +34,14 @@ const useAxios = () => {
         setError('Username already exists, please choose another.');
       } else if (error.response && error.response.status === 403) {
         setError('Bad server response, not authenticated.');
+      } else if (error.response && error.response.status === 500) {
+        setError('Bad server response. Did you fill all the fields correctly?');
       } else {
         setError(error.message);
       }
     }
-    console.log(data);
     setLoading(false);
+    console.log(data);
   };
 
   //Here we list all the CRUD methods that we want to use
@@ -65,6 +71,7 @@ const useAxios = () => {
     error,
     statusCode,
     token,
+    id,
     get,
     post,
     put,
