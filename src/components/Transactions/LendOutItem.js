@@ -26,6 +26,7 @@ const LendOutItem = () => {
   //Custom hook to make API calls
   const { post, get, loading, error, data, statusCode, token } = useAxios();
 
+  //for navigating to other pages
   const navigate = useNavigate();
 
   //Custom hook to keep track of API calls
@@ -43,28 +44,32 @@ const LendOutItem = () => {
     onDrop,
   } = usePhotoUploader();
 
-  //Function to handle the submission of the form
+  //This function handles the submission of data
   const handleSubmit = (event) => {
-    event.preventDefault();
-    //Creating the payload for the API call
-    const payload = {
-      itemName,
-      description,
-      photoURL,
-    };
-    //Defining the URL for the API call
-    const url = `${POST_SHARE_ITEM_URL}/${id}`;
-    //Making the API call
-    post(url, payload, {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
-    incrementApiCalls();
-    console.log('API calls: ', apiCalls);
-    console.log(id);
+    try {
+      event.preventDefault();
+      //Creating the payload for the API call
+      const payload = {
+        itemName,
+        description,
+        photoURL,
+      };
+      //Defining the URL for the API call
+      const url = `${POST_SHARE_ITEM_URL}/${id}`;
+      //Making the API call
+      post(url, payload, {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      });
+      incrementApiCalls();
+      console.log('API calls: ', apiCalls);
+      console.log(id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  // useEffect to check if the photoUrl is updated
+  //useEffect to check if the photoUrl is updated
   useEffect(() => {
     if (photoUrl) {
       setPhotoURL(photoUrl);
@@ -72,20 +77,21 @@ const LendOutItem = () => {
     }
   }, [photoUrl]);
 
-  // useEffect to check if the API call was successful
+  //useEffect to check if the API call was successful and increment the number of items uploaded
   useEffect(() => {
     console.log(statusCode);
     if (statusCode === 200) {
       setItemName('');
       setDescription('');
       setPhotoURL('');
+      setUploadSuccess(true);
+      setUploadedItems((prevUploadedItems) => prevUploadedItems + 1);
     }
-  }, [data, error]);
+  }, [data, error, statusCode]);
 
-  //Here we are making the API call to get all the items from the participant
+  //Here we are making an API call to get all the items from the participant
   useEffect(() => {
     if (id) {
-      // Storing the id in local storage
       get(`${GET_SHARE_ITEM_BY_PARTICIPANT_URL}/${id}`, {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -95,32 +101,25 @@ const LendOutItem = () => {
     console.log('API calls: ', apiCalls);
   }, [id]);
 
+  //Here we are counting the number of items uploaded by the participant
   useEffect(() => {
-    if (data && data.items) {
-      // check that data and data.items are defined
-      console.log(data.items);
-      const items = data.items;
-      const itemsLength = items.length;
-      console.log(itemsLength);
-      // setUploadedItems(data.items.length);
+    if (data?.items?.length) {
+      setUploadedItems(data.items.length);
     }
-  }, [data]);
-
-  console.log('Data: ', data);
+  }, [data?.items?.length]);
   console.log(uploadedItems);
 
   //Defining a success message
-  function successMessage() {
-    return (
-      <div className={classes.animation}>
-        Item has been added! Feel free to add more items. Number of items added:{' '}
-        <p className={classes.uploaded}>{uploadedItems}</p>
-        Scroll down to see a list of all the items you are lending out. To exit,
-        press one of the links in the toolshare navigation area.
-      </div>
-    );
-  }
+  const successMessage = () => (
+    <div className={classes.animation}>
+      Item has been added! Feel free to add more items. Number of items added:
+      <p className={classes.uploaded}>{uploadedItems}</p>
+      Scroll down to see a list of all the items you are lending out. To exit,
+      press one of the links in the toolshare navigation area.
+    </div>
+  );
 
+  //Allowing the participant to navigate to the list of items
   const handleMyListOfItems = () => {
     navigate(`/my-items/${id}`);
   };
@@ -134,11 +133,7 @@ const LendOutItem = () => {
             lenen. Begin met het toevoegen van een foto van het gereedschap.
           </p>
         </article>
-        {/*Terniary statement displaying server error back to user*/}
-        {error && <div className={classes.error}> {error} </div>}
-        {/*Success message displayed on successful upload*/}
-        {loading && successMessage()}
-        <div className={classes.h3}>
+        <div className={classes.preview}>
           {fileIsLoading ? (
             <p>Uploading photo...</p>
           ) : (
@@ -192,11 +187,17 @@ const LendOutItem = () => {
             </div>
           )}
           {error && <div className="error">{error}</div>}
-          <Button type="submit">
+          <Button type="submit" onClick={(event) => handleSubmit(event)}>
             {loading ? 'Loading...' : 'Update your details'}
           </Button>
+          {/*Ternary statement displaying server error back to user*/}
+          {error && <div className={classes.error}> {error} </div>}
+          {/*Success message displayed on successful upload*/}
+          {uploadSuccess && successMessage()}
         </form>
-        <Button onClick={(event) => handleMyListOfItems(event)}></Button>
+        <Button onClick={(event) => handleMyListOfItems(event)}>
+          All my items
+        </Button>
       </Card>
       <section>
         <div className={classes.photo}>

@@ -4,11 +4,16 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import classes from './MainNavigation.module.css';
 import applicationLogo from '../../assets/1667993269612blob.jpg';
 import Button from '../Button/Button';
-import { useEffect, useState } from 'react';
-import useAxios from '../../hooks/useAxios';
-import { PARTICIPANT_URL } from '../../backend-urls/constants';
 
 function MainNavigation({ isRegistered, isLoggedIn, isUpdated, handleLogout }) {
+  console.log(isRegistered, isLoggedIn, isUpdated);
+
+  //Persisting the state of the navigation variables
+  isRegistered = JSON.parse(localStorage.getItem('isRegistered'));
+  isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
+  isUpdated = JSON.parse(localStorage.getItem('isUpdated'));
+  console.log(isRegistered, isLoggedIn, isUpdated);
+
   return (
     <>
       <header className={classes.header}>
@@ -53,12 +58,6 @@ function MainNavigation({ isRegistered, isLoggedIn, isUpdated, handleLogout }) {
             // Display "Home", "Logout" and "Profile" buttons
             <ul>
               <li>
-                <Link to="/" className={classes.nav}>
-                  Home
-                </Link>
-                <Link to="/profile" className={classes.nav}>
-                  Profile
-                </Link>
                 <Button to="/" className={classes.nav} onClick={handleLogout}>
                   Logout
                 </Button>

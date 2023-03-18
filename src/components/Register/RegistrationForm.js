@@ -71,6 +71,7 @@ const RegistrationForm = ({ handleRegistration }) => {
     if (statusCode === 201) {
       // Registration successful, navigate to login page
       handleRegistration();
+      localStorage.setItem('isRegistered', JSON.stringify(true));
       navigate('/login');
     }
     if (error && error.response && error.response.status === 409) {

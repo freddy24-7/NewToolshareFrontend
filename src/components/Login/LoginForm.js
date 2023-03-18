@@ -45,6 +45,7 @@ const LoginForm = ({ changeLoginState }) => {
         // Login successful, set the token and navigate to profile page
         login(data.token);
         changeLoginState();
+        localStorage.setItem('isLoggedIn', JSON.stringify(true));
         navigate('/profile');
       } else if (error && error.response && error.response.status === 403) {
         // Wrong username or password

@@ -123,6 +123,7 @@ const Profile = ({ handleUpdate }) => {
     if (statusCode === 200) {
       // Success, navigate to transactions start page
       handleUpdate();
+      localStorage.setItem('isUpdated', JSON.stringify(true));
       navigate(`/start/${data.id}`);
     } else if (error && error.response && error.response.status === 403) {
       console.log('Authentication failed');

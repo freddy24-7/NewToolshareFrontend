@@ -38,6 +38,9 @@ function App() {
     setIsUpdated(false);
     localStorage.removeItem('token');
     localStorage.removeItem('id');
+    localStorage.removeItem('isRegistered');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('isUpdated');
     navigate('/');
   };
 
@@ -65,17 +68,12 @@ function App() {
             path="/login"
             element={<LoginForm changeLoginState={changeLoginState} />}
           />
-          {isLoggedIn && (
-            <Route
-              path="/profile"
-              element={<Profile handleUpdate={handleUpdate} />}
-            />
-          )}
-          {isLoggedIn && <Route path="/start/:id" element={<Commencement />} />}
-          {isLoggedIn && (
-            <Route path="/participants" element={<ParticipantList />} />
-          )}
-          {/*{isLoggedIn && <Route path="/items/1" element={<LendOutItem />} />}*/}
+          <Route
+            path="/profile"
+            element={<Profile handleUpdate={handleUpdate} />}
+          />
+          <Route path="/start/:id" element={<Commencement />} />
+          <Route path="/participants" element={<ParticipantList />} />
           <Route path="/items/:id" element={<LendOutItem />} />
           <Route path="/my-items/:id" element={<ParticipantItemList />} />
           {/* Redirect to the homepage for any other URLs */}
