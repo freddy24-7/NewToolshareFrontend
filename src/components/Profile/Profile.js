@@ -1,4 +1,3 @@
-// This is a context that will be used to store the user's token
 import React, { useEffect, useState } from 'react';
 import { PARTICIPANT_URL } from '../../backend-urls/constants';
 import classes from './Profile.module.css';
@@ -28,7 +27,7 @@ const Profile = ({ handleUpdate }) => {
   //Custom hook to make API calls
   const { post, loading, error, data, statusCode, token } = useAxios();
 
-  //Custom hook to navigate to other pages
+  //Hook to navigate to other pages
   const navigate = useNavigate();
 
   //Custom hook to keep track of API calls
@@ -46,7 +45,7 @@ const Profile = ({ handleUpdate }) => {
     onDrop,
   } = usePhotoUploader();
 
-  //Function to handle the submit of the form
+  //Function to handle the submission of the form
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -122,7 +121,6 @@ const Profile = ({ handleUpdate }) => {
     setId(data.id);
     console.log(id);
     if (statusCode === 200) {
-      console.log(id);
       // Success, navigate to transactions start page
       handleUpdate();
       navigate(`/start/${data.id}`);

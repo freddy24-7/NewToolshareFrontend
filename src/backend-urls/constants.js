@@ -9,7 +9,7 @@ export const GET_ALL_PARTICIPANTS_URL =
 export const FILE_UPLOAD_URL = BASE_API_URL + '/api/imagefile/upload';
 export const POST_SHARE_ITEM_URL =
   BASE_API_URL + '/api/items/participants/items';
-export const GET_SHARE_ITEM_URL = BASE_API_URL + '/api/items/items';
+export const GET_ALL_SHARE_ITEM_URL = BASE_API_URL + '/api/items/items';
 export const GET_SHARE_ITEM_BY_PARTICIPANT_URL =
   BASE_API_URL + '/api/items/participants/items';
 export const EXPRESS_INTEREST_GET_OWNER_DETAILS_URL =

@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
 import RegistrationForm from './components/Register/RegistrationForm';
 import LoginForm from './components/Login/LoginForm';
@@ -7,9 +7,12 @@ import Profile from './components/Profile/Profile';
 import MainNavigation from './components/Layout/MainNavigation';
 import { useState } from 'react';
 import Commencement from './components/Transactions/Commencement';
+import ParticipantList from './components/Transactions/ParticipantList';
+import LendOutItem from './components/Transactions/LendOutItem';
+import ParticipantItemList from './components/Transactions/ParticipantItemList';
 
 function App() {
-  //These variables are used for conditonal button display in the MainNavigation component
+  //These variables are used for conditional button display in the MainNavigation component
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
@@ -34,7 +37,7 @@ function App() {
     setIsRegistered(false);
     setIsUpdated(false);
     localStorage.removeItem('token');
-    localStorage.removeItem('submission');
+    localStorage.removeItem('id');
     navigate('/');
   };
 
@@ -69,6 +72,12 @@ function App() {
             />
           )}
           {isLoggedIn && <Route path="/start/:id" element={<Commencement />} />}
+          {isLoggedIn && (
+            <Route path="/participants" element={<ParticipantList />} />
+          )}
+          {/*{isLoggedIn && <Route path="/items/1" element={<LendOutItem />} />}*/}
+          <Route path="/items/:id" element={<LendOutItem />} />
+          <Route path="/my-items/:id" element={<ParticipantItemList />} />
           {/* Redirect to the homepage for any other URLs */}
           {/*<Route path="*" element={<Navigate to="/" />} />*/}
         </Route>

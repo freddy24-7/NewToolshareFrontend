@@ -14,18 +14,25 @@ function Commencement() {
 
   //Getting the id from the URL
   const { id } = useParams();
+  console.log(id);
 
   //Custom hook to make API calls
-  const { data, loading, error, get } = useAxios();
+  const { data, loading, error, get, token } = useAxios();
 
   //Here we are making the API call to get the participant
   useEffect(() => {
     if (id) {
-      get(`${PARTICIPANT_URL}/${id}`);
+      get(`${PARTICIPANT_URL}/${id}`, {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      });
     }
     incrementApiCalls();
     console.log('API calls: ', apiCalls);
+    // Storing the id in local storage
+    localStorage.setItem('id', id);
   }, [id]);
+  console.log(token);
 
   //Here we are checking if the data is loading
   if (loading) {

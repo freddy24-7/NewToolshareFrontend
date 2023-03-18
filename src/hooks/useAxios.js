@@ -1,7 +1,7 @@
 // This is a custom hook that we can use to make API calls
 import { useState } from 'react';
 import axios from 'axios';
-//
+
 const useAxios = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
