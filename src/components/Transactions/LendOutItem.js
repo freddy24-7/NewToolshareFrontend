@@ -85,7 +85,13 @@ const LendOutItem = () => {
       setDescription('');
       setPhotoURL('');
       setUploadSuccess(true);
-      setUploadedItems((prevUploadedItems) => prevUploadedItems + 1);
+      setUploadedItems((prevUploadedItems) => {
+        if (prevUploadedItems !== null) {
+          return prevUploadedItems + 1;
+        } else {
+          return null;
+        }
+      });
     }
   }, [data, error, statusCode]);
 
@@ -102,22 +108,31 @@ const LendOutItem = () => {
   }, [id]);
 
   //Here we are counting the number of items uploaded by the participant
+  //The code block runs when the updatedItems array is updated
   useEffect(() => {
     if (data?.items?.length) {
       setUploadedItems(data.items.length);
     }
-  }, [data?.items?.length]);
+  }, [data?.items?.length, uploadedItems]);
   console.log(uploadedItems);
 
-  //Defining a success message
-  const successMessage = () => (
-    <div className={classes.animation}>
-      Item has been added! Feel free to add more items. Number of items added:
-      <p className={classes.uploaded}>{uploadedItems}</p>
-      Scroll down to see a list of all the items you are lending out. To exit,
-      press one of the links in the toolshare navigation area.
-    </div>
-  );
+  //Defining a success message - only runs when the uploadedItems arrays is not null
+  const successMessage = () => {
+    if (uploadedItems === null) return null;
+    return (
+      <div className={classes.animation}>
+        Item has been added! Feel free to add more items.
+        {uploadedItems && (
+          <>
+            Number of items added:
+            <p className={classes.uploaded}>{uploadedItems}</p>
+          </>
+        )}
+        Scroll down to see a list of all the items you are lending out. To exit,
+        press one of the links in the toolshare navigation area.
+      </div>
+    );
+  };
 
   //Allowing the participant to navigate to the list of items
   const handleMyListOfItems = () => {
@@ -188,7 +203,7 @@ const LendOutItem = () => {
           )}
           {error && <div className="error">{error}</div>}
           <Button type="submit" onClick={(event) => handleSubmit(event)}>
-            {loading ? 'Loading...' : 'Update your details'}
+            {loading ? 'Loading...' : 'Add your item'}
           </Button>
           {/*Ternary statement displaying server error back to user*/}
           {error && <div className={classes.error}> {error} </div>}
@@ -196,7 +211,7 @@ const LendOutItem = () => {
           {uploadSuccess && successMessage()}
         </form>
         <Button onClick={(event) => handleMyListOfItems(event)}>
-          All my items
+          All my uploaded items
         </Button>
       </Card>
       <section>

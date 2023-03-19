@@ -5,7 +5,7 @@ import Card from '../Card/Card';
 import classes from './LoginForm.module.css';
 import Button from '../Button/Button';
 import laptopgirl from '../../assets/pexels-jopwell-2422286.jpg';
-import { SIGN_IN_URL } from '../../backend-urls/constants';
+import { PARTICIPANT_URL, SIGN_IN_URL } from '../../backend-urls/constants';
 import { useNavigate } from 'react-router-dom';
 import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
@@ -15,9 +15,10 @@ const LoginForm = ({ changeLoginState }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [backEndError, setBackendError] = useState(false);
+  const [participants, setParticipants] = useState([]);
 
   //Custom hook to make API calls
-  const { post, loading, error, data, statusCode } = useAxios();
+  const { post, get, loading, error, data, statusCode } = useAxios();
 
   //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
@@ -30,6 +31,28 @@ const LoginForm = ({ changeLoginState }) => {
     username,
     password,
   };
+
+  //To allow a user to go straight to trading pages if already additional details were earlier
+  //provided, we need to check if the user has already provided additional details
+  //To do so we are checking the user id against the ids of the participants
+  //Defining an empty array to store the user-ids of existing participants
+  const [prevUserIds, setPrevUserIds] = useState([]);
+
+  useEffect(() => {
+    //obtaining the data needed to check if the user has already provided additional details
+    get(`${PARTICIPANT_URL}`);
+    incrementApiCalls();
+    console.log('API calls: ', apiCalls);
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      // Map through the data and create a new array of ids
+      const oldUserIds = data.map((item) => (item.user ? item.user.id : null));
+      setPrevUserIds(oldUserIds);
+    }
+  }, [data]);
+  console.log(prevUserIds);
 
   // Making the API request when the form is submitted
   const handleLogin = async (event) => {
