@@ -7,7 +7,8 @@ const useAxios = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [statusCode, setStatusCode] = useState(null);
-  const [id, setId] = useState(null); // Add a state variable to store the id
+  const [id, setId] = useState(null);
+  const [responseData, setResponseData] = useState(null);
 
   //This function is used to make the API calls
   const fetchData = async (url, method, body = null, headers = {}) => {
@@ -21,6 +22,7 @@ const useAxios = () => {
         headers: headers,
       });
       setData(response.data);
+      setResponseData(response.data);
       console.log(response);
       console.log(response.data);
       console.log(response.data.id);
@@ -67,6 +69,7 @@ const useAxios = () => {
   // return data, loading, error, statusCode, get, post, put, del
   return {
     data,
+    responseData,
     loading,
     error,
     statusCode,

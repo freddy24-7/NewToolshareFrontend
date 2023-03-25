@@ -12,8 +12,9 @@ import { GET_SHARE_ITEM_BY_PARTICIPANT_URL } from '../../backend-urls/constants'
 import { useNavigate, useParams } from 'react-router-dom';
 
 const LendOutItem = () => {
-  //Getting the id from the URL
+  //Getting the id from url
   const { id } = useParams();
+  console.log(id);
 
   //Defining variables
   const [itemName, setItemName] = useState('');
@@ -103,9 +104,10 @@ const LendOutItem = () => {
         Authorization: `Bearer ${token}`,
       });
     }
+    console.log(uploadedItems);
     incrementApiCalls();
     console.log('API calls: ', apiCalls);
-  }, [id]);
+  }, [data?.items?.length]);
 
   //Here we are counting the number of items uploaded by the participant
   //The code block runs when the updatedItems array is updated

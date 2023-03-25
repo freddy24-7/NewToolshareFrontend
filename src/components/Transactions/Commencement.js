@@ -33,7 +33,6 @@ function Commencement() {
     localStorage.setItem('id', id);
   }, [id]);
   console.log(token);
-
   //Here we are checking if the data is loading
   if (loading) {
     return <div>Loading...</div>;

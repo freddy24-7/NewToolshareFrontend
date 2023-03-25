@@ -118,8 +118,6 @@ const Profile = ({ handleUpdate }) => {
   useEffect(() => {
     console.log(statusCode);
     console.log(data.id);
-    setId(data.id);
-    console.log(id);
     if (statusCode === 200) {
       // Success, navigate to transactions start page
       handleUpdate();

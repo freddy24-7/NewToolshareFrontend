@@ -66,7 +66,14 @@ function App() {
           />
           <Route
             path="/login"
-            element={<LoginForm changeLoginState={changeLoginState} />}
+            element={
+              <LoginForm
+                changeLoginState={changeLoginState}
+                //belwo is used to assist navigation for repeat users
+                handleRegistration={handleRegistration}
+                handleUpdate={handleUpdate}
+              />
+            }
           />
           <Route
             path="/profile"

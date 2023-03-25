@@ -1,24 +1,27 @@
-// This component is used to login a user
+// This component is used to log in a user, and direct a first time user to the profile page,
+// and a repeat user to the start page.
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import Card from '../Card/Card';
 import classes from './LoginForm.module.css';
 import Button from '../Button/Button';
 import laptopgirl from '../../assets/pexels-jopwell-2422286.jpg';
-import { PARTICIPANT_URL, SIGN_IN_URL } from '../../backend-urls/constants';
+import { SIGN_IN_URL } from '../../backend-urls/constants';
 import { useNavigate } from 'react-router-dom';
 import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
+import usePrevUserIds from '../../hooks/usePreviousUsers';
 
-const LoginForm = ({ changeLoginState }) => {
+const LoginForm = ({ changeLoginState, handleRegistration, handleUpdate }) => {
   const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [backEndError, setBackendError] = useState(false);
-  const [participants, setParticipants] = useState([]);
+  const [participantId, setParticipantId] = useState(null);
+  const { prevUserIds, prevParticipantIds } = usePrevUserIds();
 
   //Custom hook to make API calls
-  const { post, get, loading, error, data, statusCode } = useAxios();
+  const { post, loading, error, data } = useAxios();
 
   //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
@@ -32,28 +35,6 @@ const LoginForm = ({ changeLoginState }) => {
     password,
   };
 
-  //To allow a user to go straight to trading pages if already additional details were earlier
-  //provided, we need to check if the user has already provided additional details
-  //To do so we are checking the user id against the ids of the participants
-  //Defining an empty array to store the user-ids of existing participants
-  const [prevUserIds, setPrevUserIds] = useState([]);
-
-  useEffect(() => {
-    //obtaining the data needed to check if the user has already provided additional details
-    get(`${PARTICIPANT_URL}`);
-    incrementApiCalls();
-    console.log('API calls: ', apiCalls);
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      // Map through the data and create a new array of ids
-      const oldUserIds = data.map((item) => (item.user ? item.user.id : null));
-      setPrevUserIds(oldUserIds);
-    }
-  }, [data]);
-  console.log(prevUserIds);
-
   // Making the API request when the form is submitted
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -61,20 +42,33 @@ const LoginForm = ({ changeLoginState }) => {
     incrementApiCalls();
   };
 
-  // When the API request is complete, handle the response
+  //Checking if the user is logged in
   useEffect(() => {
-    if (data) {
-      if (statusCode === 200) {
-        // Login successful, set the token and navigate to profile page
-        login(data.token);
-        changeLoginState();
-        localStorage.setItem('isLoggedIn', JSON.stringify(true));
+    if (data && data.token) {
+      // Login successful, set the token and navigate to profile page
+      login(data.token);
+      changeLoginState();
+      console.log(data.id);
+      localStorage.setItem('isLoggedIn', JSON.stringify(true));
+      //Checking if user has already uploaded participant details
+      if (prevUserIds.includes(data.id)) {
+        const index = prevUserIds.indexOf(data.id);
+        console.log(index);
+        const participantId = prevParticipantIds[index];
+        setParticipantId(participantId);
+        localStorage.setItem('isRegistered', JSON.stringify(true));
+        localStorage.setItem('isUpdated', JSON.stringify(true));
+        //sending the user to the start page
+        navigate(`/start/${participantId}`);
+      } else {
+        console.log('User has not uploaded participant details yet');
+        //sending the user to the profile page
         navigate('/profile');
-      } else if (error && error.response && error.response.status === 403) {
-        // Wrong username or password
-        setBackendError(true);
-        console.log('Wrong username or password');
       }
+    } else if (error && error.response && error.response.status === 403) {
+      // Wrong username or password
+      setBackendError(true);
+      console.log('Wrong username or password');
     }
   }, [data, error]);
 
