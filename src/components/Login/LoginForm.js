@@ -10,7 +10,7 @@ import { SIGN_IN_URL } from '../../backend-urls/constants';
 import { useNavigate } from 'react-router-dom';
 import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
-import usePrevUserIds from '../../hooks/usePreviousUsers';
+import PrevUserIds from '../../helpers/PreviousUsers';
 
 const LoginForm = ({ changeLoginState, handleRegistration, handleUpdate }) => {
   const { login } = useAuth();
@@ -18,7 +18,7 @@ const LoginForm = ({ changeLoginState, handleRegistration, handleUpdate }) => {
   const [password, setPassword] = useState('');
   const [backEndError, setBackendError] = useState(false);
   const [participantId, setParticipantId] = useState(null);
-  const { prevUserIds, prevParticipantIds } = usePrevUserIds();
+  const { prevUserIds, prevParticipantIds } = PrevUserIds();
 
   //Custom hook to make API calls
   const { post, loading, error, data } = useAxios();

@@ -1,40 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import classes from './ParticipantItemList.module.css';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { GET_SHARE_ITEM_BY_PARTICIPANT_URL } from '../../backend-urls/constants';
+import useAxios from '../../hooks/useAxios';
+import useApiCalls from '../../hooks/useApiCalls';
 
 const ParticipantItemList = () => {
   //Defining list-item variable
   const [myItems, setMyItems] = useState(null);
 
-  const { id } = useParams();
+  const [apiCalls, incrementApiCalls] = useApiCalls();
 
-  //axios get by id call backend and credentials, using axios
-  const getAxios = axios.get(GET_SHARE_ITEM_BY_PARTICIPANT_URL + '/' + id, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-  });
-  //Runs once, to give the existing data
+  //Getting the id from the URL
+  const { id } = useParams();
+  console.log(id);
+
+  //Custom hook to make API calls
+  const { data, loading, error, get, token } = useAxios();
+
+  //Here we are making the API call to get the participant
   useEffect(() => {
-    getAxios
-      .then((response) => {
-        console.log(response);
-        console.log(response.data.items);
-        //creating the variable that contains the items of the specific participant
-        const myItems = response.data.items;
-        //setting the state equal to the variable value
-        setMyItems(myItems);
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log(error.response.data);
+    if (id) {
+      get(`${GET_SHARE_ITEM_BY_PARTICIPANT_URL}/${id}`, {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       });
-  }, []);
-  //Final check:
-  console.log(myItems);
+    }
+    incrementApiCalls();
+    console.log('API calls: ', apiCalls);
+    // Storing the id in local storage
+  }, [id]);
+
+  useEffect(() => {
+    if (data) {
+      setMyItems(data.items);
+    }
+  }, [data]);
+
+  //Here we are checking if the data is loading
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  //Here we are checking if there is an error
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <section>

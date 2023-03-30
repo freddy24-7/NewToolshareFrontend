@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PARTICIPANT_URL } from '../backend-urls/constants';
 
-const usePrevUserIds = () => {
+const PrevUserIds = () => {
   const [prevUserIds, setPrevUserIds] = useState([]);
   const [prevParticipantIds, setPrevParticipantIds] = useState([]);
   const [apiCalls, setApiCalls] = useState(0);
@@ -34,4 +34,4 @@ const usePrevUserIds = () => {
   };
 };
 
-export default usePrevUserIds;
+export default PrevUserIds;

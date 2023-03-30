@@ -6,7 +6,7 @@ import { PARTICIPANT_URL } from '../../backend-urls/constants';
 
 const ParticipantList = () => {
   //Custom hook to make API calls
-  const { get, loading, error, data, statusCode, token } = useAxios();
+  const { get, loading, error, data } = useAxios();
 
   //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
@@ -17,6 +17,14 @@ const ParticipantList = () => {
     incrementApiCalls();
     console.log('API calls: ', apiCalls);
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <ul>
