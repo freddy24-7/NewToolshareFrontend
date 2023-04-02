@@ -1,4 +1,4 @@
-.auth {
+.base {
     margin: 3rem auto;
     width: 95%;
     max-width: 25rem;
@@ -9,22 +9,46 @@
     text-align: center;
     color: white;
 }
-.authinvalid {
-    border: 1px solid #b40e0e;
-    background-color: #5e365e;
-    margin: 3rem auto;
-    width: 95%;
-    max-width: 25rem;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    padding: 1rem;
+
+.base h1 {
     text-align: center;
     color: white;
 }
 
-.auth h1 {
+.photo {
+    margin: 3rem auto;
     text-align: center;
-    color: white;
+}
+
+.preview {
+    padding: 10px 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+/*The below hover code creates a nice hover effect*/
+.preview:hover {
+    box-shadow: 3px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.preview h3 {
+    font-size: 20px;
+    color: #c493c9;
+    margin-bottom: 8px;
+}
+
+.preview h4 {
+    font-size: 14px;
+    color: #37505a;
+    margin-bottom: 8px;
+}
+
+.success {
+    color: #b5514a;
+    text-align: center;
 }
 
 .control {
@@ -47,15 +71,4 @@
     width: 100%;
     text-align: left;
     padding: 0.25rem;
-    margin-top: 5px;
-    margin-bottom: 8px;
-}
-
-.error {
-    color: #c493c9;
-}
-
-.photo {
-    margin: 3rem auto;
-    text-align: center;
 }

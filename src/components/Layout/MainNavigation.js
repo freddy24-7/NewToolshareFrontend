@@ -1,5 +1,5 @@
 //This is the MainNavigation component. It is used to navigate between the different pages in the application.
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';
 import applicationLogo from '../../assets/1667993269612blob.jpg';
@@ -85,6 +85,9 @@ function MainNavigation({ isRegistered, isLoggedIn, isUpdated, handleLogout }) {
                 </Link>
                 <Link to={`/items/${id}`} className={classes.nav}>
                   Lend-Out
+                </Link>
+                <Link to={`/borrow/${id}`} className={classes.nav}>
+                  Borrow
                 </Link>
                 <Button to="/" className={classes.nav} onClick={handleLogout}>
                   Logout

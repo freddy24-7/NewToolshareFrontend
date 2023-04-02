@@ -1,12 +1,12 @@
 // This component is used to display the commencement page
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useAxios from '../../hooks/useAxios';
-import { PARTICIPANT_URL } from '../../backend-urls/constants';
-import Card from '../Card/Card';
+import useAxios from '../../../hooks/useAxios';
+import { PARTICIPANT_URL } from '../../../backend-urls/constants';
+import Card from '../../Card/Card';
 import classes from './Commencement.module.css';
-import useApiCalls from '../../hooks/useApiCalls';
-import laptopworker from '../../assets/pexels-karolina-grabowska-6920104.jpg';
+import useApiCalls from '../../../hooks/useApiCalls';
+import laptopworker from '../../../assets/pexels-karolina-grabowska-6920104.jpg';
 
 function Commencement() {
   // Custom hook to keep track of API calls

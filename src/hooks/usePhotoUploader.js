@@ -3,12 +3,14 @@ import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { FILE_UPLOAD_URL } from '../backend-urls/constants';
 
+// This is a custom hook that is used to upload a photo to the database.
 const usePhotoUploader = () => {
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState(null);
   const [fileIsLoading, setFileIsLoading] = useState(false);
   const [photoUrl, setPhotoUrl] = useState(null);
 
+  // This function is used to upload a photo to the database.
   const onDrop = async (acceptedFiles) => {
     const file = acceptedFiles[0];
     setFile(file);

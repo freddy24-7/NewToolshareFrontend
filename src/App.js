@@ -6,10 +6,14 @@ import { AuthProvider } from './context/AuthContext';
 import Profile from './components/Profile/Profile';
 import MainNavigation from './components/Layout/MainNavigation';
 import { useState } from 'react';
-import Commencement from './components/Transactions/Commencement';
-import ParticipantList from './components/Transactions/ParticipantList';
-import LendOutItem from './components/Transactions/LendOutItem';
-import ParticipantItemList from './components/Transactions/ParticipantItemList';
+import Commencement from './components/Transactions/commencement/Commencement';
+import ParticipantList from './components/Transactions/participant-list/ParticipantList';
+import LendOutItem from './components/Transactions/lend-out/LendOutItem';
+import ParticipantItemList from './components/Transactions/participant-item-list/ParticipantItemList';
+import Borrow from './components/Transactions/borrow/Borrow';
+import Owner from './components/Transactions/owner/Owner';
+import OwnerDetails from './components/Transactions/owner-details/OwnerDetails';
+import EarlierViewedItems from './components/Transactions/viewed-items/EarlierViewedItems';
 
 function App() {
   //These variables are used for conditional button display in the MainNavigation component
@@ -20,7 +24,7 @@ function App() {
   //This variable manages the navigation
   const navigate = useNavigate();
 
-  //These functions are used to change the state of the navigation variables above
+  //These three functions are used to change the state of the navigation variables above
   const handleRegistration = () => {
     setIsRegistered(true);
   };
@@ -69,7 +73,7 @@ function App() {
             element={
               <LoginForm
                 changeLoginState={changeLoginState}
-                //belwo is used to assist navigation for repeat users
+                //below is used to assist navigation for repeat users
                 handleRegistration={handleRegistration}
                 handleUpdate={handleUpdate}
               />
@@ -83,6 +87,11 @@ function App() {
           <Route path="/participants" element={<ParticipantList />} />
           <Route path="/items/:id" element={<LendOutItem />} />
           <Route path="/my-items/:id" element={<ParticipantItemList />} />
+          <Route path="/borrow/:id" element={<Borrow />} />
+          <Route path="/owner/:id" element={<Owner />} />
+          <Route path="/owner-details/:id" element={<OwnerDetails />} />
+          <Route path="/owner-details/:id" element={<OwnerDetails />} />
+          <Route path="/earlier-viewed/:id" element={<EarlierViewedItems />} />
           {/* Redirect to the homepage for any other URLs */}
           {/*<Route path="*" element={<Navigate to="/" />} />*/}
         </Route>

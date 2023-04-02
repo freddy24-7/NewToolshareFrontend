@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import classes from './ParticipantItemList.module.css';
 import { useParams } from 'react-router-dom';
-import { GET_SHARE_ITEM_BY_PARTICIPANT_URL } from '../../backend-urls/constants';
-import useAxios from '../../hooks/useAxios';
-import useApiCalls from '../../hooks/useApiCalls';
+import { GET_SHARE_ITEM_BY_PARTICIPANT_URL } from '../../../backend-urls/constants';
+import useAxios from '../../../hooks/useAxios';
+import useApiCalls from '../../../hooks/useApiCalls';
+import Card from '../../Card/Card';
 
 const ParticipantItemList = () => {
   //Defining list-item variable
   const [myItems, setMyItems] = useState(null);
-
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
   //Getting the id from the URL
@@ -49,26 +49,36 @@ const ParticipantItemList = () => {
 
   return (
     <section>
-      <section className={classes.base}>
-        <div className={classes.control}>
-          <p className={classes.success}>
-            Dit zijn de door u ter beschikking gestelde spullen
-          </p>
-        </div>
-      </section>
-      <ul>
-        {/*checking that we have "items", then using the map-method to output the items*/}
-        {myItems &&
-          myItems.map((item) => (
-            <div className={classes.actions} key={item.itemId}>
-              <h3>Name: {item.itemName} </h3>
-              <h4>Description: {item.description}</h4>
-              <div className={classes.photo}>
-                <img src={item.photoURL} height={150} width={145} />
+      <div className={classes.control}>
+        <h2 className={classes.success}>
+          Deze zijn de door u ter beschikking gestelde spullen:
+        </h2>
+      </div>
+      {myItems && myItems.length > 0 ? (
+        <ul>
+          {/*checking that we have "items", then using the map-method to output the items*/}
+          {myItems.map((item) => (
+            <Card className={classes.base}>
+              <div className={classes.preview} key={item.id}>
+                <h3>Name: {item.itemName} </h3>
+                <h4>Description: {item.description}</h4>
+                <div className={classes.photo}>
+                  <img
+                    src={item.photoURL}
+                    height={150}
+                    width={145}
+                    alt="item photo"
+                  />
+                </div>
               </div>
-            </div>
+            </Card>
           ))}
-      </ul>
+        </ul>
+      ) : (
+        <Card className={classes.base}>
+          <p>Je hebt tot nu toe geen spullen toegevoegd.</p>
+        </Card>
+      )}
     </section>
   );
 };

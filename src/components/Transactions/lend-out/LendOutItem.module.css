@@ -163,21 +163,17 @@
     display: inline-flex;
 }
 
-/*Animation below is used for when the participant uploads items that s/he wants to lend out*/
 .animation {
     color: #c493c9;
+    animation: animate 2s linear;
     animation-iteration-count: 1;
-    animation: animate 1s linear;
 }
-@keyframes animate
-{
-    0%, 10%, 100%
-    {
+
+@keyframes animate {
+    0%, 10%, 100% {
         width: 0;
     }
-    70%, 90%
-    {
+    70%, 90% {
         width: 100%
     }
-
 }

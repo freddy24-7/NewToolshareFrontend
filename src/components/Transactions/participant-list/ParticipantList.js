@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import classes from './PartcipantList.module.css';
-import useAxios from '../../hooks/useAxios';
-import useApiCalls from '../../hooks/useApiCalls';
-import { PARTICIPANT_URL } from '../../backend-urls/constants';
+import useAxios from '../../../hooks/useAxios';
+import useApiCalls from '../../../hooks/useApiCalls';
+import { PARTICIPANT_URL } from '../../../backend-urls/constants';
+import Card from '../../Card/Card';
 
 const ParticipantList = () => {
   //Custom hook to make API calls
@@ -31,17 +32,19 @@ const ParticipantList = () => {
       {/*checking that we have "participants", then using the map-method to output the participants*/}
       {data &&
         data.map((data) => (
-          <div className={classes.preview} key={data.id}>
-            <h3>
-              Name: {data.firstName} {data.lastName}
-            </h3>
-            <h4>
-              Email: {data.email} / Phone: {data.mobileNumber}{' '}
-            </h4>
-            <div className={classes.photo}>
-              <img src={data.photoURL} height={150} width={145} />
+          <Card className={classes.base} key={data.id}>
+            <div className={classes.preview}>
+              <h3>
+                Name: {data.firstName} {data.lastName}
+              </h3>
+              <h4>
+                Email: {data.email} / Phone: {data.mobileNumber}{' '}
+              </h4>
+              <div className={classes.photo}>
+                <img src={data.photoURL} height={150} width={145} />
+              </div>
             </div>
-          </div>
+          </Card>
         ))}
     </ul>
   );

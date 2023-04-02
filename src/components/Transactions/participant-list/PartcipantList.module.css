@@ -1,0 +1,51 @@
+.base {
+    margin: 3rem auto;
+    width: 95%;
+    max-width: 25rem;
+    border-radius: 6px;
+    background-color: #37505a;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    text-align: center;
+    color: white;
+}
+
+.base h1 {
+    text-align: center;
+    color: white;
+}
+
+.photo {
+    margin: 3rem auto;
+    text-align: center;
+}
+
+.preview {
+    padding: 10px 16px;
+    /*border-bottom: 1px solid #37505a;*/
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*margin-left: 350px;*/
+    /*margin-top: 10px;*/
+    /*margin-bottom: 10px;*/
+    border-radius: 20px;
+}
+
+/*The below hover code creates a nice hover effect*/
+.preview:hover {
+    box-shadow: 3px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.preview h3 {
+    font-size: 20px;
+    color: #c493c9;
+    margin-bottom: 8px;
+}
+
+.preview h4 {
+    font-size: 14px;
+    color: #37505a;
+    margin-bottom: 8px;
+}

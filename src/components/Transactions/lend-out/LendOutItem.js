@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import useApiCalls from '../../hooks/useApiCalls';
-import useAxios from '../../hooks/useAxios';
-import usePhotoUploader from '../../hooks/usePhotoUploader';
-import Card from '../Card/Card';
-import Button from '../Button/Button';
+import useApiCalls from '../../../hooks/useApiCalls';
+import useAxios from '../../../hooks/useAxios';
+import usePhotoUploader from '../../../hooks/usePhotoUploader';
+import Card from '../../Card/Card';
+import Button from '../../Button/Button';
 import classes from './LendOutItem.module.css';
-import working from '../../assets/pexels-bidvine-1249611.jpg';
-import { POST_SHARE_ITEM_URL } from '../../backend-urls/constants';
-import { GET_SHARE_ITEM_BY_PARTICIPANT_URL } from '../../backend-urls/constants';
+import working from '../../../assets/pexels-bidvine-1249611.jpg';
+import { POST_SHARE_ITEM_URL } from '../../../backend-urls/constants';
+import { GET_SHARE_ITEM_BY_PARTICIPANT_URL } from '../../../backend-urls/constants';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -144,7 +144,7 @@ const LendOutItem = () => {
   return (
     <>
       <Card className={classes.base}>
-        <article>
+        <article className={classes.preview}>
           <p>
             Hier kun je je tools delen! Voeg een tool toe die anderen kunnen
             lenen. Begin met het toevoegen van een foto van het gereedschap.

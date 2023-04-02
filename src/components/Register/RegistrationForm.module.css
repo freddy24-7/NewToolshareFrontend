@@ -9,6 +9,7 @@
     text-align: center;
     color: white;
 }
+
 .authinvalid {
     border: 1px solid #b40e0e;
     background-color: #5e365e;
@@ -51,40 +52,11 @@
     margin-bottom: 8px;
 }
 
-.actions {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.actions .toggle {
-    margin-top: 1rem;
-    background-color: transparent;
-    color: #37505a;
-    border: none;
-    padding: 0.15rem 1.5rem;
-}
-
-.actions .toggle:hover {
-    background-color: transparent;
-    color: #37505a;
-}
-
 .error {
     color: #c493c9;
 }
+
 .photo {
     margin: 3rem auto;
     text-align: center;
-}
-
-
-.text {
-    color: #37505a;
-    text-align: right;
-    margin-right: 160px;
-    margin-left: 20px;
-    font-size: 10px;
-    font-weight: bold;
 }
