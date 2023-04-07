@@ -58,8 +58,8 @@ const ParticipantItemList = () => {
         <ul>
           {/*checking that we have "items", then using the map-method to output the items*/}
           {myItems.map((item) => (
-            <Card className={classes.base}>
-              <div className={classes.preview} key={item.id}>
+            <Card className={classes.base} key={item.id}>
+              <div className={classes.preview}>
                 <h3>Name: {item.itemName} </h3>
                 <h4>Description: {item.description}</h4>
                 <div className={classes.photo}>

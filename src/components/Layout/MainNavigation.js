@@ -1,28 +1,15 @@
 //This is the MainNavigation component. It is used to navigate between the different pages in the application.
 import { Link } from 'react-router-dom';
-
 import classes from './MainNavigation.module.css';
 import applicationLogo from '../../assets/1667993269612blob.jpg';
 import Button from '../Button/Button';
-import { useEffect, useState } from 'react';
 
 function MainNavigation({ isRegistered, isLoggedIn, isUpdated, handleLogout }) {
-  console.log(isRegistered, isLoggedIn, isUpdated);
-
-  const [id, setId] = useState(null);
-
   //Persisting the state of the navigation variables
   isRegistered = JSON.parse(localStorage.getItem('isRegistered'));
   isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
   isUpdated = JSON.parse(localStorage.getItem('isUpdated'));
   console.log(isRegistered, isLoggedIn, isUpdated);
-
-  // Reading the id from localStorage when the component mounts
-  useEffect(() => {
-    const idFromLocalStorage = JSON.parse(localStorage.getItem('id'));
-    setId(idFromLocalStorage);
-  }, []);
-  console.log(id);
 
   return (
     <>
@@ -83,11 +70,14 @@ function MainNavigation({ isRegistered, isLoggedIn, isUpdated, handleLogout }) {
                 <Link to="/participants" className={classes.nav}>
                   Participants
                 </Link>
-                <Link to={`/items/${id}`} className={classes.nav}>
+                <Link to="/items" className={classes.nav}>
                   Lend-Out
                 </Link>
-                <Link to={`/borrow/${id}`} className={classes.nav}>
+                <Link to="/borrow" className={classes.nav}>
                   Borrow
+                </Link>
+                <Link to="/my-details" className={classes.nav}>
+                  My Details
                 </Link>
                 <Button to="/" className={classes.nav} onClick={handleLogout}>
                   Logout

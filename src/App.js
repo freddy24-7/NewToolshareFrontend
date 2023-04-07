@@ -14,12 +14,14 @@ import Borrow from './components/Transactions/borrow/Borrow';
 import Owner from './components/Transactions/owner/Owner';
 import OwnerDetails from './components/Transactions/owner-details/OwnerDetails';
 import EarlierViewedItems from './components/Transactions/viewed-items/EarlierViewedItems';
+import MyDetails from './components/Transactions/my-details/MyDetails';
 
 function App() {
   //These variables are used for conditional button display in the MainNavigation component
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [id, setId] = useState(null);
 
   //This variable manages the navigation
   const navigate = useNavigate();
@@ -85,13 +87,14 @@ function App() {
           />
           <Route path="/start/:id" element={<Commencement />} />
           <Route path="/participants" element={<ParticipantList />} />
-          <Route path="/items/:id" element={<LendOutItem />} />
+          <Route path="/items" element={<LendOutItem />} />
           <Route path="/my-items/:id" element={<ParticipantItemList />} />
-          <Route path="/borrow/:id" element={<Borrow />} />
+          <Route path="/borrow" element={<Borrow />} />
           <Route path="/owner/:id" element={<Owner />} />
           <Route path="/owner-details/:id" element={<OwnerDetails />} />
-          <Route path="/owner-details/:id" element={<OwnerDetails />} />
           <Route path="/earlier-viewed/:id" element={<EarlierViewedItems />} />
+          <Route path="/my-details" element={<MyDetails />} />
+
           {/* Redirect to the homepage for any other URLs */}
           {/*<Route path="*" element={<Navigate to="/" />} />*/}
         </Route>

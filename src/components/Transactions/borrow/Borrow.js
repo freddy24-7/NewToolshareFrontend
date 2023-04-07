@@ -8,16 +8,16 @@ import Button from '../../Button/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Borrow = () => {
+  //Getting the id from local storage
+  let id = JSON.parse(localStorage.getItem('id'));
+  console.log(id);
+
   //Setting the state variables
   const [allItems, setAllItems] = useState([]);
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
   //Custom hook to make API calls
   const { data, loading, error, get, token } = useAxios();
-
-  //Getting the id from the URL
-  const { id } = useParams();
-  console.log(id);
 
   // React router hook to navigate to other pages
   const navigate = useNavigate();

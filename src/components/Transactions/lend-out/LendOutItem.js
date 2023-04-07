@@ -12,8 +12,8 @@ import { GET_SHARE_ITEM_BY_PARTICIPANT_URL } from '../../../backend-urls/constan
 import { useNavigate, useParams } from 'react-router-dom';
 
 const LendOutItem = () => {
-  //Getting the id from url
-  const { id } = useParams();
+  //Getting the id from the local storage
+  const id = JSON.parse(localStorage.getItem('id'));
   console.log(id);
 
   //Defining variables
