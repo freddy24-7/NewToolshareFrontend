@@ -21,7 +21,7 @@ function App() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
-  const [id, setId] = useState(null);
+  const [isDetailsUpdate, setIsDetailsUpdate] = useState(false);
 
   //This variable manages the navigation
   const navigate = useNavigate();
@@ -37,11 +37,16 @@ function App() {
     setIsUpdated(true);
   };
 
+  const newDetailsUpdate = () => {
+    setIsDetailsUpdate(true);
+  };
+
   //This function handles the logout
   const handleLogout = () => {
     setIsLoggedIn(false);
     setIsRegistered(false);
     setIsUpdated(false);
+    setIsDetailsUpdate(false);
     localStorage.removeItem('token');
     localStorage.removeItem('id');
     localStorage.removeItem('isRegistered');
@@ -60,6 +65,8 @@ function App() {
         isLoggedIn={isLoggedIn}
         isUpdated={isUpdated}
         handleLogout={handleLogout}
+        newDetailsUpdate={newDetailsUpdate}
+        isDetailsUpdate={isDetailsUpdate}
       />
       <Routes>
         <Route>
@@ -93,8 +100,10 @@ function App() {
           <Route path="/owner/:id" element={<Owner />} />
           <Route path="/owner-details/:id" element={<OwnerDetails />} />
           <Route path="/earlier-viewed/:id" element={<EarlierViewedItems />} />
-          <Route path="/my-details" element={<MyDetails />} />
-
+          <Route
+            path="/my-details"
+            element={<Profile isDetailsUpdate={isDetailsUpdate} />}
+          />
           {/* Redirect to the homepage for any other URLs */}
           {/*<Route path="*" element={<Navigate to="/" />} />*/}
         </Route>
