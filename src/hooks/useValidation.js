@@ -1,3 +1,7 @@
+//This hook is used to validate the form fields,
+//and reduce code duplication in the form components "Profile.js" and "Details.js"
+
+//By using useMemo one can in this case prevent unnecessary re-renders of the component
 import { useMemo } from 'react';
 
 export const useValidation = (fields, requestType) => {

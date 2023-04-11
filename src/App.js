@@ -14,8 +14,8 @@ import Borrow from './components/Transactions/borrow/Borrow';
 import Owner from './components/Transactions/owner/Owner';
 import OwnerDetails from './components/Transactions/owner-details/OwnerDetails';
 import EarlierViewedItems from './components/Transactions/viewed-items/EarlierViewedItems';
-import MyDetails from './components/Transactions/my-details/Details';
 import Details from './components/Transactions/my-details/Details';
+import Remove from './components/Transactions/delete-details/Remove';
 
 function App() {
   //These variables are used for conditional button display in the MainNavigation component
@@ -53,7 +53,6 @@ function App() {
     localStorage.removeItem('isRegistered');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('isUpdated');
-    navigate('/');
   };
 
   //These console.logs are used to check the state of the variables above
@@ -100,11 +99,12 @@ function App() {
           <Route path="/borrow" element={<Borrow />} />
           <Route path="/owner/:id" element={<Owner />} />
           <Route path="/owner-details/:id" element={<OwnerDetails />} />
-          <Route path="/earlier-viewed/:id" element={<EarlierViewedItems />} />
           <Route
-            path="/my-details"
-            element={<Details isDetailsUpdate={isDetailsUpdate} />}
+            path="/remove/:id"
+            element={<Remove handleLogout={handleLogout} />}
           />
+          <Route path="/earlier-viewed/:id" element={<EarlierViewedItems />} />
+          <Route path="/my-details" element={<Details />} />
           {/* Redirect to the homepage for any other URLs */}
           {/*<Route path="*" element={<Navigate to="/" />} />*/}
         </Route>

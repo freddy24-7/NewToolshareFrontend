@@ -66,6 +66,7 @@ const Owner = () => {
     navigate(`/owner-details/${id}`);
   };
 
+  //Allowing the participant to navigate to earlier viewed items page
   const goToEarlierViewedItems = () => {
     navigate(`/earlier-viewed/${id}`);
   };

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import classes from './PartcipantList.module.css';
+import classes from './ParticipantList.module.css';
 import useAxios from '../../../hooks/useAxios';
 import useApiCalls from '../../../hooks/useApiCalls';
 import { PARTICIPANT_URL } from '../../../backend-urls/constants';

@@ -1,26 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PARTICIPANT_URL } from '../../../backend-urls/constants';
 import classes from './Details.module.css';
 import Card from '../../Card/Card';
 import Button from '../../Button/Button';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useApiCalls from '../../../hooks/useApiCalls';
 import useAxios from '../../../hooks/useAxios';
 import usePhotoUploader from '../../../hooks/usePhotoUploader';
 import { useValidation } from '../../../hooks/useValidation';
 import machineworker from '../../../assets/pexels-karolina-grabowska-6920104.jpg';
 
-const Details = ({ isDetailsUpdate }) => {
+const Details = () => {
   //Getting the id from local storage
   const id = JSON.parse(localStorage.getItem('id'));
   console.log(id);
-  console.log(isDetailsUpdate);
 
   //Custom hook to make API calls
   const { put, get, loading, error, data, statusCode, token, responseData } =
     useAxios();
 
   //Defining the variables for uploading new participant
+  //Checking for response data to be able to prefill the form
   const [firstName, setFirstName] = useState(responseData?.firstName ?? '');
   const [lastName, setLastName] = useState(responseData?.lastName ?? '');
   const [postcode, setPostcode] = useState(responseData?.postcode ?? '');
@@ -32,7 +32,7 @@ const Details = ({ isDetailsUpdate }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [inputError, setInputError] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [detailUpdate, setDetailUpdate] = useState(false);
+  const [participantFetched, setParticipantFetched] = useState(false);
 
   //Hook to navigate to other pages
   const navigate = useNavigate();
@@ -68,6 +68,7 @@ const Details = ({ isDetailsUpdate }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    //Checking for validation errors
     if (validationErrors.length > 0) {
       setErrorMessage(validationErrors[0].message);
       setInputError(true);
@@ -89,6 +90,7 @@ const Details = ({ isDetailsUpdate }) => {
     };
     console.log(payload);
     console.log(id);
+
     //Making the API call for updating participant
     put(`${PARTICIPANT_URL}/${id}`, payload, {
       'Content-Type': 'application/json',
@@ -113,11 +115,9 @@ const Details = ({ isDetailsUpdate }) => {
     }
   }, [photoUrl]);
 
-  const [participantFetched, setParticipantFetched] = useState(false);
-
   //Get the current participant details
   useEffect(() => {
-    if (isDetailsUpdate && id && !participantFetched) {
+    if (id && !participantFetched) {
       setParticipantFetched(true);
       get(`${PARTICIPANT_URL}/${id}`, {
         'Content-Type': 'application/json',
@@ -126,15 +126,21 @@ const Details = ({ isDetailsUpdate }) => {
     }
   }, [participantFetched]);
 
+  // useEffect to prefill the form with the current participant details
   useEffect(() => {
-    if (isDetailsUpdate && data) {
+    if (data) {
       setFirstName(data.firstName);
       setLastName(data.lastName);
       setPostcode(data.postcode);
       setEmail(data.email);
       setMobileNumber(data.mobileNumber);
     }
-  }, [data, isDetailsUpdate]);
+  }, [data]);
+
+  //Function to handle the deletion of the participant
+  const handleDelete = () => {
+    navigate(`/remove/${id}`);
+  };
 
   //Dynamic use of CSS, other styles appear if input is invalid
   const inputClasses = inputError || error ? classes.authinvalid : classes.auth;
@@ -229,6 +235,16 @@ const Details = ({ isDetailsUpdate }) => {
             {loading ? 'Loading...' : 'Update your details'}
           </Button>
         </form>
+      </Card>
+      <Card className={inputClasses}>
+        <article>
+          <h2 className={classes.h2}>Gegevens deleten?</h2>
+          <h3 className={classes.h3}>
+            Als je het zeker weet, druk op "Delete". Jouw gegevens worden
+            verwijdert van het systeem.
+          </h3>
+          <Button onClick={(event) => handleDelete(event)}> Delete</Button>
+        </article>
       </Card>
       <section>
         <div className={classes.photo}>
