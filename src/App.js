@@ -14,7 +14,8 @@ import Borrow from './components/Transactions/borrow/Borrow';
 import Owner from './components/Transactions/owner/Owner';
 import OwnerDetails from './components/Transactions/owner-details/OwnerDetails';
 import EarlierViewedItems from './components/Transactions/viewed-items/EarlierViewedItems';
-import MyDetails from './components/Transactions/my-details/MyDetails';
+import MyDetails from './components/Transactions/my-details/Details';
+import Details from './components/Transactions/my-details/Details';
 
 function App() {
   //These variables are used for conditional button display in the MainNavigation component
@@ -102,7 +103,7 @@ function App() {
           <Route path="/earlier-viewed/:id" element={<EarlierViewedItems />} />
           <Route
             path="/my-details"
-            element={<Profile isDetailsUpdate={isDetailsUpdate} />}
+            element={<Details isDetailsUpdate={isDetailsUpdate} />}
           />
           {/* Redirect to the homepage for any other URLs */}
           {/*<Route path="*" element={<Navigate to="/" />} />*/}

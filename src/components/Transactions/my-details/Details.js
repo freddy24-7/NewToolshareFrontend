@@ -1,31 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { PARTICIPANT_URL } from '../../backend-urls/constants';
-import classes from './Profile.module.css';
-import Card from '../Card/Card';
-import Button from '../Button/Button';
+import React, { useCallback, useEffect, useState } from 'react';
+import { PARTICIPANT_URL } from '../../../backend-urls/constants';
+import classes from './Details.module.css';
+import Card from '../../Card/Card';
+import Button from '../../Button/Button';
 import { useNavigate } from 'react-router-dom';
-import useApiCalls from '../../hooks/useApiCalls';
-import useAxios from '../../hooks/useAxios';
-import usePhotoUploader from '../../hooks/usePhotoUploader';
-import machineworker from '../../assets/pexels-karolina-grabowska-6920104.jpg';
+import useApiCalls from '../../../hooks/useApiCalls';
+import useAxios from '../../../hooks/useAxios';
+import usePhotoUploader from '../../../hooks/usePhotoUploader';
+import { useValidation } from '../../../hooks/useValidation';
+import machineworker from '../../../assets/pexels-karolina-grabowska-6920104.jpg';
 
-const Profile = ({ handleUpdate }) => {
+const Details = ({ isDetailsUpdate }) => {
+  //Getting the id from local storage
+  const id = JSON.parse(localStorage.getItem('id'));
+  console.log(id);
+  console.log(isDetailsUpdate);
+
+  //Custom hook to make API calls
+  const { put, get, loading, error, data, statusCode, token, responseData } =
+    useAxios();
+
   //Defining the variables for uploading new participant
-  const [id, setId] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [postcode, setPostcode] = useState('');
-  const [email, setEmail] = useState('');
-  const [mobileNumber, setMobileNumber] = useState('');
+  const [firstName, setFirstName] = useState(responseData?.firstName ?? '');
+  const [lastName, setLastName] = useState(responseData?.lastName ?? '');
+  const [postcode, setPostcode] = useState(responseData?.postcode ?? '');
+  const [email, setEmail] = useState(responseData?.email ?? '');
+  const [mobileNumber, setMobileNumber] = useState(
+    responseData?.mobileNumber ?? '',
+  );
   const [photoURL, setPhotoURL] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [inputError, setInputError] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-
-  console.log(id);
-
-  //Custom hook to make API calls
-  const { post, loading, error, data, statusCode, token } = useAxios();
+  const [detailUpdate, setDetailUpdate] = useState(false);
 
   //Hook to navigate to other pages
   const navigate = useNavigate();
@@ -45,40 +52,24 @@ const Profile = ({ handleUpdate }) => {
     onDrop,
   } = usePhotoUploader();
 
+  //Custom hook to validate form input
+  const validationErrors = useValidation(
+    {
+      firstName,
+      lastName,
+      postcode,
+      email,
+      mobileNumber,
+    },
+    put,
+  );
+
   //Function to handle the submission of the form
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Input validation in frontend
-    if (firstName.trim().length === 0 || firstName.trim().length > 30) {
-      setErrorMessage('Firstname should be between 1 and 30 characters');
-      setInputError(true);
-      return;
-    }
-    if (lastName.trim().length === 0 || lastName.trim().length > 30) {
-      setErrorMessage('Lastname should be between 1 and 30 characters');
-      setInputError(true);
-      return;
-    }
-    let regex = /^3543[A-Z]{2}$/;
-    if (!postcode.trim().match(regex)) {
-      setErrorMessage(
-        'Postcode should start with "3543" followed by two capital letters',
-      );
-      setInputError(true);
-      return;
-    }
-    regex = /@/;
-    if (!regex.test(email)) {
-      setErrorMessage('Please provide a valid email address');
-      setInputError(true);
-      return;
-    }
-    regex = /^06\d{8}$/;
-    if (!regex.test(mobileNumber)) {
-      setErrorMessage(
-        'Invalid mobile number: must contain 10 digits and start with "06"',
-      );
+    if (validationErrors.length > 0) {
+      setErrorMessage(validationErrors[0].message);
       setInputError(true);
       return;
     }
@@ -96,15 +87,23 @@ const Profile = ({ handleUpdate }) => {
       postcode,
       photoURL,
     };
-    //Making the API call
-    post(PARTICIPANT_URL, payload, {
+    console.log(payload);
+    console.log(id);
+    //Making the API call for updating participant
+    put(`${PARTICIPANT_URL}/${id}`, payload, {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     });
     incrementApiCalls();
     console.log('API calls: ', apiCalls);
-    console.log(id);
   };
+
+  //useEffect to navigate to the next page after successful API call
+  useEffect(() => {
+    if (apiCalls > 0 && statusCode === 200) {
+      navigate(`/start/${data.id}`);
+    }
+  }, [data]);
 
   // useEffect to check if the photoUrl is updated
   useEffect(() => {
@@ -114,20 +113,28 @@ const Profile = ({ handleUpdate }) => {
     }
   }, [photoUrl]);
 
-  // useEffect to check if the API call was successful
+  const [participantFetched, setParticipantFetched] = useState(false);
+
+  //Get the current participant details
   useEffect(() => {
-    console.log(statusCode);
-    console.log(data.id);
-    if (statusCode === 200) {
-      // Success, navigate to transactions start page
-      handleUpdate();
-      localStorage.setItem('isUpdated', JSON.stringify(true));
-      navigate(`/start/${data.id}`);
-    } else if (error && error.response && error.response.status === 403) {
-      console.log('Authentication failed');
+    if (isDetailsUpdate && id && !participantFetched) {
+      setParticipantFetched(true);
+      get(`${PARTICIPANT_URL}/${id}`, {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      });
     }
-    console.log('API calls: ', apiCalls);
-  }, [data, error]);
+  }, [participantFetched]);
+
+  useEffect(() => {
+    if (isDetailsUpdate && data) {
+      setFirstName(data.firstName);
+      setLastName(data.lastName);
+      setPostcode(data.postcode);
+      setEmail(data.email);
+      setMobileNumber(data.mobileNumber);
+    }
+  }, [data, isDetailsUpdate]);
 
   //Dynamic use of CSS, other styles appear if input is invalid
   const inputClasses = inputError || error ? classes.authinvalid : classes.auth;
@@ -136,9 +143,9 @@ const Profile = ({ handleUpdate }) => {
     <>
       <Card className={inputClasses}>
         <article>
-          <h2 className={classes.h2}>Welkom!</h2>
+          <h2 className={classes.h2}>Gegevens wijzigen?</h2>
           <h3 className={classes.h3}>
-            Voeg wat meer details toe om te beginnen!
+            Selecteer de gegevens die je wilt wijzigen, druk op verzenden.
           </h3>
         </article>
         <div className={classes.h3}>
@@ -175,7 +182,7 @@ const Profile = ({ handleUpdate }) => {
             First Name:
             <input
               type="text"
-              placeholder="Jouw voornaam"
+              placeholder={responseData?.firstName}
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -184,7 +191,7 @@ const Profile = ({ handleUpdate }) => {
             Last Name:
             <input
               type="text"
-              placeholder="Jouw achternaam"
+              placeholder={responseData?.lastName}
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -193,7 +200,7 @@ const Profile = ({ handleUpdate }) => {
             Email:
             <input
               type="text"
-              placeholder="Jouw email"
+              placeholder={responseData?.email}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -202,7 +209,7 @@ const Profile = ({ handleUpdate }) => {
             Mobile Number:
             <input
               type="text"
-              placeholder="Jouw mobiele nummer"
+              placeholder={responseData?.mobileNumber}
               value={mobileNumber}
               onChange={(e) => setMobileNumber(e.target.value)}
             />
@@ -211,17 +218,13 @@ const Profile = ({ handleUpdate }) => {
             Post Code:
             <input
               type="text"
-              placeholder="Jouw postcode"
+              placeholder={responseData?.postcode}
               value={postcode}
               onChange={(e) => setPostcode(e.target.value)}
             />
           </label>
-          {errorMessage.length > 0 && (
-            <div>
-              <p className={classes.error}>{errorMessage}</p>
-            </div>
-          )}
-          {error && <div className="error">{error}</div>}
+          {errorMessage && <p className={classes.error}>{errorMessage}</p>}
+          {error && <p>{error}</p>}
           <Button type="submit">
             {loading ? 'Loading...' : 'Update your details'}
           </Button>
@@ -241,4 +244,4 @@ const Profile = ({ handleUpdate }) => {
   );
 };
 
-export default Profile;
+export default Details;

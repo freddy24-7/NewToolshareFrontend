@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import classes from './MainNavigation.module.css';
 import applicationLogo from '../../assets/1667993269612blob.jpg';
 import Button from '../Button/Button';
-import { useState } from 'react';
 
 function MainNavigation({
   isRegistered,
@@ -90,7 +89,6 @@ function MainNavigation({
                 <Link
                   to={{
                     pathname: '/my-details',
-                    // state: { isNewRegistration: false },
                   }}
                   onClick={newDetailsUpdate}
                   className={classes.nav}
