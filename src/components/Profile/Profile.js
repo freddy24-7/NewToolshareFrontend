@@ -8,6 +8,7 @@ import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
 import usePhotoUploader from '../../hooks/usePhotoUploader';
 import machineworker from '../../assets/pexels-karolina-grabowska-6920104.jpg';
+import { useValidation } from '../../hooks/useValidation';
 
 const Profile = ({ handleUpdate }) => {
   //Defining the variables for uploading new participant
@@ -45,40 +46,25 @@ const Profile = ({ handleUpdate }) => {
     onDrop,
   } = usePhotoUploader();
 
+  // Hook to validate form inputs
+  const validationErrors = useValidation(
+    {
+      firstName,
+      lastName,
+      postcode,
+      email,
+      mobileNumber,
+    },
+    'post',
+  );
+
   //Function to handle the submission of the form
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Input validation in frontend
-    if (firstName.trim().length === 0 || firstName.trim().length > 30) {
-      setErrorMessage('Firstname should be between 1 and 30 characters');
-      setInputError(true);
-      return;
-    }
-    if (lastName.trim().length === 0 || lastName.trim().length > 30) {
-      setErrorMessage('Lastname should be between 1 and 30 characters');
-      setInputError(true);
-      return;
-    }
-    let regex = /^3543[A-Z]{2}$/;
-    if (!postcode.trim().match(regex)) {
-      setErrorMessage(
-        'Postcode should start with "3543" followed by two capital letters',
-      );
-      setInputError(true);
-      return;
-    }
-    regex = /@/;
-    if (!regex.test(email)) {
-      setErrorMessage('Please provide a valid email address');
-      setInputError(true);
-      return;
-    }
-    regex = /^06\d{8}$/;
-    if (!regex.test(mobileNumber)) {
-      setErrorMessage(
-        'Invalid mobile number: must contain 10 digits and start with "06"',
-      );
+    if (validationErrors.length > 0) {
+      setErrorMessage(validationErrors[0].message);
       setInputError(true);
       return;
     }
