@@ -35,7 +35,10 @@ const useAxios = () => {
       if (error.response && error.response.status === 409) {
         setError('Username already exists, please choose another.');
       } else if (error.response && error.response.status === 403) {
-        setError('Bad server response, not authenticated.');
+        setError(
+          'Bad server response, not authenticated. If you get this message during logging in,' +
+            'please check your username and password, then press "Login". Otherwise, please log in again.',
+        );
       } else if (error.response && error.response.status === 500) {
         setError(
           'Bad server response. Did you fill all the fields correctly? ' +

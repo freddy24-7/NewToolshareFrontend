@@ -23,8 +23,6 @@ const Profile = ({ handleUpdate }) => {
   const [inputError, setInputError] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
-  console.log(id);
-
   //Custom hook to make API calls
   const { post, loading, error, data, statusCode, token } = useAxios();
 

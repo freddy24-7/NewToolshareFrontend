@@ -53,7 +53,10 @@ function App() {
     localStorage.removeItem('isRegistered');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('isUpdated');
+    navigate('/');
   };
+
+  //NB - special case
 
   //These console.logs are used to check the state of the variables above
   console.log(isRegistered, isLoggedIn, isUpdated);

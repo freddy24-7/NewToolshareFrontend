@@ -123,7 +123,6 @@ const LendOutItem = () => {
     if (uploadedItems === null) return null;
     return (
       <div className={classes.animation}>
-        Item has been added! Feel free to add more items.
         {uploadedItems && (
           <>
             Number of items added:

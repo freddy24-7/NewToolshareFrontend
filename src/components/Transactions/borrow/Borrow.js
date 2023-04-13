@@ -5,7 +5,7 @@ import useAxios from '../../../hooks/useAxios';
 import useApiCalls from '../../../hooks/useApiCalls';
 import Card from '../../Card/Card';
 import Button from '../../Button/Button';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Borrow = () => {
   //Getting the id from local storage
