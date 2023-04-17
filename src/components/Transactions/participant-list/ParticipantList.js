@@ -41,7 +41,12 @@ const ParticipantList = () => {
                 Email: {data.email} / Phone: {data.mobileNumber}{' '}
               </h4>
               <div className={classes.photo}>
-                <img src={data.photoURL} height={150} width={145} />
+                <img
+                  src={data.photoURL}
+                  alt="participant"
+                  height={150}
+                  width={145}
+                />
               </div>
             </div>
           </Card>

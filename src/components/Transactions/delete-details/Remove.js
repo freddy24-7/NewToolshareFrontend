@@ -23,7 +23,8 @@ const Remove = ({ handleLogout }) => {
       Authorization: `Bearer ${token}`,
     });
     //Setting the token to null, so that the user is logged out
-    handleLogout();
+    //passing false to the handleLogout function, so that the user is not redirected to the login page
+    handleLogout(false);
   }, [id]);
   console.log(statusCode);
 

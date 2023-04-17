@@ -43,7 +43,7 @@ function App() {
   };
 
   //This function handles the logout
-  const handleLogout = () => {
+  const handleLogout = (shouldNavigate = true) => {
     setIsLoggedIn(false);
     setIsRegistered(false);
     setIsUpdated(false);
@@ -53,10 +53,10 @@ function App() {
     localStorage.removeItem('isRegistered');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('isUpdated');
-    navigate('/');
+    if (shouldNavigate) {
+      navigate('/');
+    }
   };
-
-  //NB - special case
 
   //These console.logs are used to check the state of the variables above
   console.log(isRegistered, isLoggedIn, isUpdated);

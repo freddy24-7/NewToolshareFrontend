@@ -1,3 +1,4 @@
+//A helper function to further simplify the code in the components
 import { useEffect, useState } from 'react';
 import useAxios from '../hooks/useAxios';
 import { PARTICIPANT_URL } from '../backend-urls/constants';

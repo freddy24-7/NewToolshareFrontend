@@ -12,7 +12,7 @@ import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
 import PrevUserIds from '../../helpers/PreviousUsers';
 
-const LoginForm = ({ changeLoginState, handleRegistration, handleUpdate }) => {
+const LoginForm = ({ changeLoginState }) => {
   const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

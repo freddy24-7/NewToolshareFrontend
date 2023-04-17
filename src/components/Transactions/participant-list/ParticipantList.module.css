@@ -22,14 +22,10 @@
 
 .preview {
     padding: 10px 16px;
-    /*border-bottom: 1px solid #37505a;*/
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*margin-left: 350px;*/
-    /*margin-top: 10px;*/
-    /*margin-bottom: 10px;*/
     border-radius: 20px;
 }
 

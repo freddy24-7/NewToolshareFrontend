@@ -57,7 +57,7 @@ function Commencement() {
           </div>
         </Card>
         <div className={classes.photo}>
-          <img src={data.photoURL} height={600} width={580} />
+          <img src={data.photoURL} alt="your photo" height={600} width={580} />
         </div>
       </>
     );

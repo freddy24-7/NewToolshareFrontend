@@ -1,43 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import classes from './Borrow.module.css';
-import { GET_ALL_SHARE_ITEM_URL } from '../../../backend-urls/constants';
 import useAxios from '../../../hooks/useAxios';
 import useApiCalls from '../../../hooks/useApiCalls';
 import Card from '../../Card/Card';
 import Button from '../../Button/Button';
 import { useNavigate } from 'react-router-dom';
+import AllItems from '../../../helpers/AllItems';
 
 const Borrow = () => {
   //Getting the id from local storage
   let id = JSON.parse(localStorage.getItem('id'));
   console.log(id);
 
-  //Setting the state variables
-  const [allItems, setAllItems] = useState([]);
+  //Keeping track of the number of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
+  //Setting the state variables
+  const [allItems, setAllItems] = useState([]);
+
   //Custom hook to make API calls
-  const { data, loading, error, get, token } = useAxios();
+  const { data, loading, error } = useAxios();
 
   // React router hook to navigate to other pages
   const navigate = useNavigate();
 
-  //Making the API call to get all the items
-  useEffect(() => {
-    get(GET_ALL_SHARE_ITEM_URL, {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
-    incrementApiCalls();
-  }, []);
-  console.log('API calls: ', apiCalls);
+  //Calling the allItems helper component to get the data, loading, and error values
+  const {
+    data: allItemsData,
+    loading: allItemsLoading,
+    error: allItemsError,
+  } = AllItems();
 
   //Setting the state variable to the data
   useEffect(() => {
-    if (data) {
-      setAllItems(data);
+    if (allItemsData) {
+      setAllItems(allItemsData);
     }
-  }, [data, error]);
+    incrementApiCalls();
+  }, [allItemsData, allItemsError]);
+  console.log('API calls: ', apiCalls);
+  console.log(allItems);
 
   //Checking if the data is loading
   if (loading) {

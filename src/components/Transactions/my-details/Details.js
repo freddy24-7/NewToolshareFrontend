@@ -3,7 +3,7 @@ import { PARTICIPANT_URL } from '../../../backend-urls/constants';
 import classes from './Details.module.css';
 import Card from '../../Card/Card';
 import Button from '../../Button/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useApiCalls from '../../../hooks/useApiCalls';
 import useAxios from '../../../hooks/useAxios';
 import usePhotoUploader from '../../../hooks/usePhotoUploader';

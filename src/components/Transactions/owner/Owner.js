@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import classes from './Owner.module.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Card from '../../Card/Card';
 import Button from '../../Button/Button';
 import FindOwner from './../../../helpers/FindOwner';
+import { EXPRESS_INTEREST_GET_OWNER_DETAILS_URL } from '../../../backend-urls/constants';
+import useAxios from '../../../hooks/useAxios';
 
 const Owner = () => {
   //Getting the id from the URL
@@ -19,10 +21,29 @@ const Owner = () => {
   const itemIdValue = new URLSearchParams(location.search).get('itemId');
   console.log(itemIdValue);
 
+  //Custom hook to make API calls
+  const { post, token } = useAxios();
+  console.log(token);
+
   //Calling the FindOwner component to get the owner, index, and apiCalls variables
   const { owner, index, apiCalls } = FindOwner({ itemIdValue });
   console.log(owner);
   console.log(itemIdValue);
+
+  //This code block registers the interest of the participant, with a separate id for every
+  //item the participant has shown interest in
+  const payload = {
+    itemId: itemIdValue,
+  };
+  useEffect(() => {
+    //Defining the URL for the API call
+    const url = `${EXPRESS_INTEREST_GET_OWNER_DETAILS_URL}/${id}`;
+    //Making the API call
+    post(url, payload, {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+  }, []);
 
   //Allowing the participant to navigate to owner details page
   const goToOwnerDetails = (itemId) => {

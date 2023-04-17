@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { PARTICIPANT_URL } from '../backend-urls/constants';
 
-//
 const PrevUserIds = () => {
   //State to store the previous user ids and participant ids
   const [prevUserIds, setPrevUserIds] = useState([]);

@@ -9,7 +9,7 @@ import working from '../../../assets/pexels-bidvine-1249611.jpg';
 import { POST_SHARE_ITEM_URL } from '../../../backend-urls/constants';
 import { GET_SHARE_ITEM_BY_PARTICIPANT_URL } from '../../../backend-urls/constants';
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LendOutItem = () => {
   //Getting the id from the local storage
