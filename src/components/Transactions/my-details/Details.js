@@ -243,7 +243,10 @@ const Details = () => {
             Als je het zeker weet, druk op "Delete". Jouw gegevens worden
             verwijdert van het systeem.
           </h3>
-          <Button onClick={(event) => handleDelete(event)}> Delete</Button>
+          <Button type="submit" onClick={(event) => handleDelete(event)}>
+            {' '}
+            Delete
+          </Button>
         </article>
       </Card>
       <section>

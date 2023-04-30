@@ -33,7 +33,7 @@ const useAxios = () => {
       console.log(error);
       setData([]);
       if (error.response && error.response.status === 409) {
-        setError('Username already exists, please choose another.');
+        setError('Email already exists, please choose another.');
       } else if (error.response && error.response.status === 403) {
         setError(
           'Bad server response, not authenticated. If you get this message during logging in,' +
@@ -42,10 +42,10 @@ const useAxios = () => {
       } else if (error.response && error.response.status === 500) {
         setError(
           'Bad server response. Did you fill all the fields correctly? ' +
-            'If you entered an email address, the email address may already have been taken by another user. ' +
+            'If you entered a valid email address, the email address may already have been taken by another user. ' +
             'Also this is an initiative from an area in Utrecht with postcode 3543. ' +
             'You can therefore only add postcodes starting with 3543 followed by two capital letters. ' +
-            'A mobile number needs 10 digits starting with 06.',
+            'A mobile number needs 10 digits starting with 06. Please adjust inputs and try again.',
         );
       } else {
         setError(error.message);

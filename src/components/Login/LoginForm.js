@@ -80,7 +80,7 @@ const LoginForm = ({ changeLoginState }) => {
       <Card className={inputClasses}>
         <form className={classes.control} onSubmit={handleLogin}>
           <div>
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="gebruikersnaam">Jouw gebruikersnaam:</label>
             <input
               type="text"
               placeholder="Jouw gebruikersnaam"

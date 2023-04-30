@@ -186,7 +186,7 @@ const Profile = ({ handleUpdate }) => {
             Mobile Number:
             <input
               type="text"
-              placeholder="Jouw mobiele nummer"
+              placeholder="Jouw mobiele nummer - tien cijvers"
               value={mobileNumber}
               onChange={(e) => setMobileNumber(e.target.value)}
             />
@@ -195,7 +195,7 @@ const Profile = ({ handleUpdate }) => {
             Post Code:
             <input
               type="text"
-              placeholder="Jouw postcode"
+              placeholder="Jouw 3543-postcode"
               value={postcode}
               onChange={(e) => setPostcode(e.target.value)}
             />
