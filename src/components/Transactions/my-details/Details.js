@@ -28,7 +28,7 @@ const Details = () => {
   const [mobileNumber, setMobileNumber] = useState(
     responseData?.mobileNumber ?? '',
   );
-  const [photoURL, setPhotoURL] = useState('');
+  const [photoURL, setPhotoURL] = useState(responseData?.photoURL ?? '');
   const [errorMessage, setErrorMessage] = useState('');
   const [inputError, setInputError] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -133,6 +133,7 @@ const Details = () => {
       setLastName(data.lastName);
       setPostcode(data.postcode);
       setEmail(data.email);
+      setPhotoURL(data.photoURL);
       setMobileNumber(data.mobileNumber);
     }
   }, [data]);

@@ -7,18 +7,20 @@ import Card from '../../Card/Card';
 
 const ParticipantList = () => {
   //Custom hook to make API calls
-  const { get, loading, error, data } = useAxios();
+  const { get, loading, error, data, token } = useAxios();
 
   //Custom hook to keep track of API calls
   const [apiCalls, incrementApiCalls] = useApiCalls();
 
   //Making the API call
   useEffect(() => {
-    get(`${PARTICIPANT_URL}`);
+    get(`${PARTICIPANT_URL}`, {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
     incrementApiCalls();
     console.log('API calls: ', apiCalls);
   }, []);
-
   if (loading) {
     return <div>Loading...</div>;
   }
