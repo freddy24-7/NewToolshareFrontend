@@ -3,13 +3,12 @@ export const BASE_API_URL = 'http://localhost:8080';
 // Other constants
 export const SIGN_UP_URL = BASE_API_URL + '/api/authentication/sign-up';
 export const SIGN_IN_URL = BASE_API_URL + '/api/authentication/sign-in';
-export const PARTICIPANT_URL = BASE_API_URL + '/api/participant/participants';
+export const PARTICIPANT_URL = BASE_API_URL + '/api/participants';
 export const FILE_UPLOAD_URL = BASE_API_URL + '/api/imagefile/upload';
-export const POST_SHARE_ITEM_URL =
-  BASE_API_URL + '/api/items/participants/items';
-export const GET_ALL_SHARE_ITEM_URL = BASE_API_URL + '/api/items/items';
+export const POST_SHARE_ITEM_URL = BASE_API_URL + '/api/participants/items';
+export const GET_ALL_SHARE_ITEM_URL = BASE_API_URL + '/api/items';
 export const GET_SHARE_ITEM_BY_PARTICIPANT_URL =
-  BASE_API_URL + '/api/items/participants/items';
+  BASE_API_URL + '/api/participants/items';
 export const EXPRESS_INTEREST_GET_OWNER_DETAILS_URL =
   BASE_API_URL + '/api/loan/participant';
 export const GET_HISTORY_OF_VIEWED_ITEMS =
