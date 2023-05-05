@@ -33,19 +33,32 @@ const useAxios = () => {
       console.log(error);
       setData([]);
       if (error.response && error.response.status === 409) {
-        setError('Email already exists, please choose another.');
+        setError(
+          'U heeft gebruikersgegevens ingevoerd die al bestaan, ' +
+            'wellicht een gebruikersnaam of e-mailadres? Wijzig uw invoer ' +
+            'en probeer het opnieuw.',
+        );
       } else if (error.response && error.response.status === 403) {
         setError(
-          'Bad server response, not authenticated. If you get this message during logging in,' +
-            'please check your username and password, then press "Login". Otherwise, please log in again.',
+          'Slechte serverrespons, niet geauthenticeerd. Als u dit bericht ' +
+            'krijgt tijdens het inloggen, controleer dan uw gebruikersnaam en ' +
+            'wachtwoord en druk op "Inloggen". Zo niet, log dan opnieuw in.',
+        );
+      } else if (error.response && error.response.status === 400) {
+        setError(
+          'Uw invoer is ongeldig. De postcode moet beginnen met 3543, ' +
+            'gevolgd door twee hoofdletters. Het mobiele nummer moet beginnen ' +
+            'met "06" en tien cijfers bevatten.',
         );
       } else if (error.response && error.response.status === 500) {
         setError(
-          'Bad server response. Did you fill all the fields correctly? ' +
-            'If you entered a valid email address, the email address may already have been taken by another user. ' +
-            'Also this is an initiative from an area in Utrecht with postcode 3543. ' +
-            'You can therefore only add postcodes starting with 3543 followed by two capital letters. ' +
-            'A mobile number needs 10 digits starting with 06. Please adjust inputs and try again.',
+          'Slechte serverrespons. Heeft u alle velden correct ingevuld? ' +
+            'Als u een geldig e-mailadres heeft ingevoerd, is het e-mailadres ' +
+            'mogelijk al in gebruik door een andere gebruiker. Dit is ook ' +
+            'een initiatief van een gebied in Utrecht met postcode 3543. ' +
+            'U kunt daarom alleen postcodes toevoegen die beginnen met 3543, ' +
+            'gevolgd door twee hoofdletters. Een mobiel nummer heeft 10 cijfers ' +
+            'nodig die beginnen met 06. Pas alstublieft de invoer aan en probeer het opnieuw.',
         );
       } else {
         setError(error.message);

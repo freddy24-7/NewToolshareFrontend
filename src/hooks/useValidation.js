@@ -10,48 +10,48 @@ export const useValidation = (fields, requestType) => {
 
     if (requestType === 'post') {
       if (!fields.firstName) {
-        errors.push({ field: 'firstName', message: 'First name is required' });
+        errors.push({ field: 'firstName', message: 'Voornaam is verplicht' });
       }
 
       if (!fields.lastName) {
-        errors.push({ field: 'lastName', message: 'Last name is required' });
+        errors.push({ field: 'lastName', message: 'Achternaam is verplicht' });
       }
 
       if (!fields.postcode) {
-        errors.push({ field: 'postcode', message: 'Postcode is required' });
+        errors.push({ field: 'postcode', message: 'Postcode is verplicht' });
       }
 
       if (!fields.email) {
-        errors.push({ field: 'email', message: 'Email is required' });
+        errors.push({ field: 'email', message: 'Email is verplicht' });
       } else if (
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(fields.email)
       ) {
-        errors.push({ field: 'email', message: 'Invalid email address' });
+        errors.push({ field: 'email', message: 'Ongeldig e-mailadres' });
       }
 
       if (!fields.mobileNumber) {
         errors.push({
           field: 'mobileNumber',
-          message: 'Mobile number is required',
+          message: 'Mobiel nummer is verplicht',
         });
       } else if (!/^\d{10}$/i.test(fields.mobileNumber)) {
         errors.push({
           field: 'mobileNumber',
-          message: 'Invalid mobile number',
+          message: 'Ongeldig mobiel nummer',
         });
       }
     } else if (requestType === 'put') {
       if (fields.firstName && !fields.firstName.trim()) {
         errors.push({
           field: 'firstName',
-          message: 'First name cannot be empty',
+          message: 'Voornaam kan niet leeg zijn',
         });
       }
 
       if (fields.lastName && !fields.lastName.trim()) {
         errors.push({
           field: 'lastName',
-          message: 'Last name cannot be empty',
+          message: 'Achernaam kan niet leeg zijn',
         });
       }
 
@@ -59,13 +59,13 @@ export const useValidation = (fields, requestType) => {
         fields.email &&
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(fields.email)
       ) {
-        errors.push({ field: 'email', message: 'Invalid email address' });
+        errors.push({ field: 'email', message: 'Ongeldig e-mailadres' });
       }
 
       if (fields.mobileNumber && !/^\d{10}$/i.test(fields.mobileNumber)) {
         errors.push({
           field: 'mobileNumber',
-          message: 'Invalid mobile number',
+          message: 'Ongeldig mobiel nummer',
         });
       }
     }

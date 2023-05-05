@@ -10,12 +10,13 @@ import { SIGN_IN_URL } from '../../backend-urls/constants';
 import { useNavigate } from 'react-router-dom';
 import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
+import useInput from '../../hooks/useInput';
 import PrevUserIds from '../../helpers/PreviousUsers';
 
 const LoginForm = ({ changeLoginState }) => {
   const { login } = useAuth();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const username = useInput('');
+  const password = useInput('');
   const [backEndError, setBackendError] = useState(false);
   const [participantId, setParticipantId] = useState(null);
   const { prevUserIds, prevParticipantIds } = PrevUserIds();
@@ -31,8 +32,8 @@ const LoginForm = ({ changeLoginState }) => {
 
   // Preparing payload for Api request
   const payload = {
-    username,
-    password,
+    username: username.value,
+    password: password.value,
   };
 
   // Making the API request when the form is submitted
@@ -50,6 +51,7 @@ const LoginForm = ({ changeLoginState }) => {
       changeLoginState();
       console.log(data.id);
       localStorage.setItem('isLoggedIn', JSON.stringify(true));
+      console.log(prevUserIds);
       //Checking if user has already uploaded participant details
       if (prevUserIds.includes(data.id)) {
         const index = prevUserIds.indexOf(data.id);
@@ -84,8 +86,8 @@ const LoginForm = ({ changeLoginState }) => {
             <input
               type="text"
               placeholder="Jouw gebruikersnaam"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
+              {...username}
+              onChange={username.onChange}
             />
           </div>
           <div>
@@ -93,8 +95,8 @@ const LoginForm = ({ changeLoginState }) => {
             <input
               type="password"
               placeholder="Jouw wachtwoord"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              {...password}
+              onChange={password.onChange}
             />
           </div>
           {error && <div className="error">{error}</div>}

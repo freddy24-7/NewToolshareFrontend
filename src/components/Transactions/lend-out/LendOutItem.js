@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 const LendOutItem = () => {
   //Getting the id from the local storage
   const id = JSON.parse(localStorage.getItem('id'));
-  console.log(id);
 
   //Defining variables
   const [itemName, setItemName] = useState('');
@@ -23,6 +22,7 @@ const LendOutItem = () => {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [uploadedItems, setUploadedItems] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   //Custom hook to make API calls
   const { post, get, loading, error, data, statusCode, token } = useAxios();
@@ -49,6 +49,14 @@ const LendOutItem = () => {
   const handleSubmit = (event) => {
     try {
       event.preventDefault();
+      // Check if itemName and itemDescription fields are not empty
+      if (!itemName || !description || !photoURL) {
+        setErrorMessage(
+          'Gelieve alle invoervelden in te vullen ' +
+            'inclusief het toevoegen van een foto.',
+        );
+        return;
+      }
       //Creating the payload for the API call
       const payload = {
         itemName,
@@ -75,6 +83,8 @@ const LendOutItem = () => {
     if (photoUrl) {
       setPhotoURL(photoUrl);
       setUploadSuccess(true);
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 6000);
     }
   }, [photoUrl]);
 
@@ -93,6 +103,14 @@ const LendOutItem = () => {
           return null;
         }
       });
+      // Clear input fields and feedback after two seconds
+      setTimeout(() => {
+        setItemName('');
+        setDescription('');
+        setPhotoURL('');
+        setErrorMessage('');
+        setUploadSuccess(false);
+      }, 2000);
     }
   }, [data, error, statusCode]);
 
@@ -116,7 +134,6 @@ const LendOutItem = () => {
       setUploadedItems(data.items.length);
     }
   }, [data?.items?.length, uploadedItems]);
-  console.log(uploadedItems);
 
   //Defining a success message - only runs when the uploadedItems arrays is not null
   const successMessage = () => {
@@ -125,7 +142,7 @@ const LendOutItem = () => {
       <div className={classes.animation}>
         {uploadedItems && (
           <>
-            Number of items added:
+            Aantal toegevoegde items:
             <p className={classes.uploaded}>{uploadedItems}</p>
           </>
         )}
@@ -164,23 +181,24 @@ const LendOutItem = () => {
               >
                 <input {...getInputProps()} />
                 <p>
-                  Drag and drop your photo here or click "Choose file" to select
-                  a file
+                  Sleep je foto hierheen of klik op 'Choose file' om een bestand
+                  te selecteren.
                 </p>
+                <p>Let op: HEIC-bestanden worden niet ondersteund!</p>
               </div>
               <input
                 type="file"
                 onChange={(event) => onDrop(event.target.files)}
               />
-              {photoUrl && (
-                <p className={classes.success}>Photo uploaded successfully!</p>
+              {showSuccessMessage && (
+                <p className={classes.success}>Foto succesvol geüpload!</p>
               )}
             </>
           )}
         </div>
         <form className={classes.control} onSubmit={handleSubmit}>
           <label>
-            Item Name:
+            Itemnaam:
             <input
               type="text"
               placeholder="Wat wil je delen?"
@@ -189,7 +207,7 @@ const LendOutItem = () => {
             />
           </label>
           <label>
-            Item Description:
+            Itembeschrijving:
             <input
               type="text"
               placeholder="Kan je jouw item kort beschrijven? "
@@ -204,7 +222,7 @@ const LendOutItem = () => {
           )}
           {error && <div className="error">{error}</div>}
           <Button type="submit" onClick={(event) => handleSubmit(event)}>
-            {loading ? 'Loading...' : 'Add your item'}
+            {loading ? 'Loading...' : 'item toevoegen'}
           </Button>
           {/*Ternary statement displaying server error back to user*/}
           {error && <div className={classes.error}> {error} </div>}
@@ -212,7 +230,7 @@ const LendOutItem = () => {
           {uploadSuccess && successMessage()}
         </form>
         <Button onClick={(event) => handleMyListOfItems(event)}>
-          All my uploaded items
+          Al mijn geüploade items bekijken
         </Button>
       </Card>
       <section>

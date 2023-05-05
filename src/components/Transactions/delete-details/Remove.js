@@ -31,11 +31,7 @@ const Remove = ({ handleLogout }) => {
   return (
     <Card>
       <div>
-        <p className={classes.base}>
-          Je bent verwijderd. Indien gewenst kunt u opnieuw inloggen met uw
-          gebruikersreferenties en nieuwe deelnemersgegevens aanmaken. Of begin
-          helemaal opnieuw en registreer u als nieuwe gebruiker.
-        </p>
+        <p className={classes.base}>U bent verwijderd van het systeem.</p>
       </div>
       <div className={classes.photo}>
         <img src={goodbye} alt="goodbye" height={600} width={580} />

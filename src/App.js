@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
 import RegistrationForm from './components/Register/RegistrationForm';
 import LoginForm from './components/Login/LoginForm';
@@ -109,7 +109,7 @@ function App() {
           <Route path="/earlier-viewed/:id" element={<EarlierViewedItems />} />
           <Route path="/my-details" element={<Details />} />
           {/* Redirect to the homepage for any other URLs */}
-          {/*<Route path="*" element={<Navigate to="/" />} />*/}
+          <Route path="*" element={<Navigate to="/" />} />
         </Route>
       </Routes>
     </AuthProvider>

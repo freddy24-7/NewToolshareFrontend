@@ -15,7 +15,6 @@ const PrevUserIds = () => {
     const fetchData = async () => {
       const response = await fetch(`${PARTICIPANT_URL}`);
       const responseData = await response.json();
-      console.log(responseData);
       setData(responseData);
       setApiCalls((apiCalls) => apiCalls + 1);
       console.log('API calls: ', apiCalls);

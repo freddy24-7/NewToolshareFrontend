@@ -9,16 +9,17 @@ import useAxios from '../../hooks/useAxios';
 import usePhotoUploader from '../../hooks/usePhotoUploader';
 import machineworker from '../../assets/pexels-karolina-grabowska-6920104.jpg';
 import { useValidation } from '../../hooks/useValidation';
+import useInput from '../../hooks/useInput';
 
 const Profile = ({ handleUpdate }) => {
   //Defining the variables for uploading new participant
-  const [id, setId] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [postcode, setPostcode] = useState('');
-  const [email, setEmail] = useState('');
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [photoURL, setPhotoURL] = useState('');
+  const id = useInput('');
+  const firstName = useInput('');
+  const lastName = useInput('');
+  const postcode = useInput('');
+  const email = useInput('');
+  const mobileNumber = useInput('');
+  const photoURL = useInput('');
   const [errorMessage, setErrorMessage] = useState('');
   const [inputError, setInputError] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -47,11 +48,11 @@ const Profile = ({ handleUpdate }) => {
   // Hook to validate form inputs
   const validationErrors = useValidation(
     {
-      firstName,
-      lastName,
-      postcode,
-      email,
-      mobileNumber,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      postcode: postcode.value,
+      email: email.value,
+      mobileNumber: mobileNumber.value,
     },
     'post',
   );
@@ -73,12 +74,12 @@ const Profile = ({ handleUpdate }) => {
 
     //Creating the payload for the API call
     const payload = {
-      firstName,
-      lastName,
-      email,
-      mobileNumber,
-      postcode,
-      photoURL,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      email: email.value,
+      mobileNumber: mobileNumber.value,
+      postcode: postcode.value,
+      photoURL: photoURL.value,
     };
     //Making the API call
     post(PARTICIPANT_URL, payload, {
@@ -93,7 +94,7 @@ const Profile = ({ handleUpdate }) => {
   // useEffect to check if the photoUrl is updated
   useEffect(() => {
     if (photoUrl) {
-      setPhotoURL(photoUrl);
+      photoURL.onChange({ target: { value: photoUrl } });
       setUploadSuccess(true);
     }
   }, [photoUrl]);
@@ -140,16 +141,17 @@ const Profile = ({ handleUpdate }) => {
               >
                 <input {...getInputProps()} />
                 <p>
-                  Drag and drop your photo here or click "Choose file" to select
-                  a file
+                  Sleep je foto hierheen of klik op 'Choose File' om een bestand
+                  te selecteren
                 </p>
+                <p>Let op: HEIC-bestanden worden niet ondersteund!</p>
               </div>
               <input
                 type="file"
                 onChange={(event) => onDrop(event.target.files)}
               />
               {photoUrl && (
-                <p className={classes.success}>Photo uploaded successfully!</p>
+                <p className={classes.success}>Foto succesvol geüpload!</p>
               )}
             </>
           )}
@@ -157,48 +159,27 @@ const Profile = ({ handleUpdate }) => {
         <form className={classes.control} onSubmit={handleSubmit}>
           <label>
             First Name:
-            <input
-              type="text"
-              placeholder="Jouw voornaam"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
+            <input type="text" placeholder="Jouw voornaam" {...firstName} />
           </label>
           <label>
             Last Name:
-            <input
-              type="text"
-              placeholder="Jouw achternaam"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
+            <input type="text" placeholder="Jouw achternaam" {...lastName} />
           </label>
           <label>
             Email:
-            <input
-              type="text"
-              placeholder="Jouw email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <input type="text" placeholder="Jouw email" {...email} />
           </label>
           <label>
             Mobile Number:
             <input
               type="text"
               placeholder="Jouw mobiele nummer - tien cijvers"
-              value={mobileNumber}
-              onChange={(e) => setMobileNumber(e.target.value)}
+              {...mobileNumber}
             />
           </label>
           <label>
-            Post Code:
-            <input
-              type="text"
-              placeholder="Jouw 3543-postcode"
-              value={postcode}
-              onChange={(e) => setPostcode(e.target.value)}
-            />
+            Post Code (3543__):
+            <input type="text" placeholder="Jouw 3543-postcode" {...postcode} />
           </label>
           {errorMessage.length > 0 && (
             <div>
@@ -206,9 +187,7 @@ const Profile = ({ handleUpdate }) => {
             </div>
           )}
           {error && <div className="error">{error}</div>}
-          <Button type="submit">
-            {loading ? 'Loading...' : 'Update your details'}
-          </Button>
+          <Button type="submit">{loading ? 'Loading...' : 'Submit'}</Button>
         </form>
       </Card>
       <section>

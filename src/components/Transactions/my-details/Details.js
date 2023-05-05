@@ -13,7 +13,6 @@ import machineworker from '../../../assets/pexels-karolina-grabowska-6920104.jpg
 const Details = () => {
   //Getting the id from local storage
   const id = JSON.parse(localStorage.getItem('id'));
-  console.log(id);
 
   //Custom hook to make API calls
   const { put, get, loading, error, data, statusCode, token, responseData } =
@@ -21,14 +20,14 @@ const Details = () => {
 
   //Defining the variables for uploading new participant
   //Checking for response data to be able to prefill the form
-  const [firstName, setFirstName] = useState(responseData?.firstName ?? '');
-  const [lastName, setLastName] = useState(responseData?.lastName ?? '');
-  const [postcode, setPostcode] = useState(responseData?.postcode ?? '');
-  const [email, setEmail] = useState(responseData?.email ?? '');
+  const [firstName, setFirstName] = useState(responseData?.firstName || '');
+  const [lastName, setLastName] = useState(responseData?.lastName || '');
+  const [postcode, setPostcode] = useState(responseData?.postcode || '');
+  const [email, setEmail] = useState(responseData?.email || '');
   const [mobileNumber, setMobileNumber] = useState(
-    responseData?.mobileNumber ?? '',
+    responseData?.mobileNumber || '',
   );
-  const [photoURL, setPhotoURL] = useState(responseData?.photoURL ?? '');
+  const [photoURL, setPhotoURL] = useState(responseData?.photoURL || '');
   const [errorMessage, setErrorMessage] = useState('');
   const [inputError, setInputError] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -170,23 +169,24 @@ const Details = () => {
               >
                 <input {...getInputProps()} />
                 <p>
-                  Drag and drop your photo here or click "Choose file" to select
-                  a file
+                  Sleep je foto hierheen of klik op 'Choose file' om een bestand
+                  te selecteren
                 </p>
+                <p>Let op: HEIC-bestanden worden niet ondersteund!</p>
               </div>
               <input
                 type="file"
                 onChange={(event) => onDrop(event.target.files)}
               />
               {photoUrl && (
-                <p className={classes.success}>Photo uploaded successfully!</p>
+                <p className={classes.success}>Foto succesvol geüpload!</p>
               )}
             </>
           )}
         </div>
         <form className={classes.control} onSubmit={handleSubmit}>
           <label>
-            First Name:
+            Voornaam:
             <input
               type="text"
               placeholder={responseData?.firstName}
@@ -195,7 +195,7 @@ const Details = () => {
             />
           </label>
           <label>
-            Last Name:
+            Achternaam:
             <input
               type="text"
               placeholder={responseData?.lastName}
@@ -213,7 +213,7 @@ const Details = () => {
             />
           </label>
           <label>
-            Mobile Number:
+            Mobiel nummer
             <input
               type="text"
               placeholder={responseData?.mobileNumber}
@@ -232,9 +232,7 @@ const Details = () => {
           </label>
           {errorMessage && <p className={classes.error}>{errorMessage}</p>}
           {error && <p>{error}</p>}
-          <Button type="submit">
-            {loading ? 'Loading...' : 'Update your details'}
-          </Button>
+          <Button type="submit">{loading ? 'Loading...' : 'Submit'}</Button>
         </form>
       </Card>
       <Card className={inputClasses}>

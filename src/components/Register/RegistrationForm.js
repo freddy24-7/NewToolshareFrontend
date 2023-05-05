@@ -8,11 +8,12 @@ import Button from '../../components/Button/Button';
 import laptopguy from '../../assets/pexels-mikhail-nilov-6964367.jpg';
 import useApiCalls from '../../hooks/useApiCalls';
 import useAxios from '../../hooks/useAxios';
+import useInput from '../../hooks/useInput';
 
 const RegistrationForm = ({ handleRegistration }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
+  const username = useInput('');
+  const password = useInput('');
+  const repeatPassword = useInput('');
   const [errorMessage, setErrorMessage] = useState('');
   const [inputError, setInputError] = useState(false);
   const [backEndError, setBackendError] = useState(false);
@@ -30,23 +31,23 @@ const RegistrationForm = ({ handleRegistration }) => {
     event.preventDefault();
 
     // Input validation in frontend
-    if (username.trim().length === 0) {
-      setErrorMessage('Username is required');
+    if (username.value.trim().length === 0) {
+      setErrorMessage('Gebruikersnaam is verplicht');
       setInputError(true);
       return;
     }
-    if (password.trim().length === 0) {
-      setErrorMessage('Password is required');
+    if (password.value.trim().length === 0) {
+      setErrorMessage('Wachtwoord is verplicht');
       setInputError(true);
       return;
     }
-    if (password.length < 8 || password.length > 16) {
-      setErrorMessage('Password must be between 8 and 16 characters');
+    if (password.value.length < 8 || password.length > 16) {
+      setErrorMessage('Wachtwoord moet tussen 8 en 16 tekens zijn');
       setInputError(true);
       return;
     }
-    if (password !== repeatPassword) {
-      setErrorMessage('Passwords do not match');
+    if (password.value !== repeatPassword.value) {
+      setErrorMessage('Wachtwoorden komen niet overeen');
       setInputError(true);
       return;
     }
@@ -56,8 +57,8 @@ const RegistrationForm = ({ handleRegistration }) => {
 
     // Preparing payload for Api request
     const payload = {
-      username,
-      password,
+      username: username.value,
+      password: password.value,
     };
 
     // Making the API request
@@ -95,9 +96,8 @@ const RegistrationForm = ({ handleRegistration }) => {
             <input
               type="text"
               id="username"
-              value={username}
+              {...username}
               placeholder={'Kies een gebruikersnaam'}
-              onChange={(event) => setUsername(event.target.value)}
             />
           </div>
           <div>
@@ -105,9 +105,8 @@ const RegistrationForm = ({ handleRegistration }) => {
             <input
               type="password"
               id="password"
-              value={password}
+              {...password}
               placeholder={'Kies een wachtwoord - ten minste 8 tekens'}
-              onChange={(event) => setPassword(event.target.value)}
             />
           </div>
           <div>
@@ -115,9 +114,8 @@ const RegistrationForm = ({ handleRegistration }) => {
             <input
               type="password"
               id="repeatPassword"
-              value={repeatPassword}
+              {...repeatPassword}
               placeholder={'Herhaal wachtwoord'}
-              onChange={(event) => setRepeatPassword(event.target.value)}
             />
           </div>
           {errorMessage.length > 0 && (

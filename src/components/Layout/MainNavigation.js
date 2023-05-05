@@ -78,13 +78,13 @@ function MainNavigation({
                   Home
                 </Link>
                 <Link to="/participants" className={classes.nav}>
-                  Participants
+                  Deelnemers
                 </Link>
                 <Link to="/items" className={classes.nav}>
-                  Lend-Out
+                  Uitlenen
                 </Link>
                 <Link to="/borrow" className={classes.nav}>
-                  Borrow
+                  Lenen
                 </Link>
                 <Link
                   to={{
@@ -93,7 +93,7 @@ function MainNavigation({
                   onClick={newDetailsUpdate}
                   className={classes.nav}
                 >
-                  My Details
+                  Mijn gegevens
                 </Link>
                 <Button to="/" className={classes.nav} onClick={handleLogout}>
                   Logout
